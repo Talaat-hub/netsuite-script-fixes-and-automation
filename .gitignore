@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# SuiteCloud
+.suitecloud/
+build/
+deploy/
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test output
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
