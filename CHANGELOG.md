@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3.0] - 2026-03-25
+
+### Added
+- RESTlet APIs for external system integration
+  - Customer API (CRUD operations)
+  - Inventory API (real-time stock levels, bulk queries)
+  - Order API (e-commerce order creation)
+- Postman collection with complete API documentation
+- Postman environment template for quick setup
+- Token-Based Authentication examples
+
+### Changed
+- Updated deployment guide with RESTlet configuration
+- Added API integration to README examples
+
 ## [1.2.0] - 2026-03-15
 
 ### Added

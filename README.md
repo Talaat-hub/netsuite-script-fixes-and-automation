@@ -108,11 +108,29 @@ I help businesses:
 
 ---
 
+### 7. E-commerce & EDI Integration APIs
+
+**Problem:** Orders from Shopify/WooCommerce entered manually. Inventory levels out of sync causing oversells. Customer data not flowing between systems.
+
+**Solution:** Built RESTlet API layer for external integrations:
+- Customer API: Create, read, update, deactivate customers
+- Inventory API: Real-time stock levels, bulk availability checks
+- Order API: Automated order creation from e-commerce webhooks
+
+**Result:** Zero manual order entry, real-time inventory sync, single customer record across all systems.
+
+**Files:** `restlets/rl_customer_api.js`, `restlets/rl_inventory_api.js`, `restlets/rl_order_api.js`
+
+**Testing:** Complete Postman collection included — `postman/` folder
+
+---
+
 ## 🧰 Tools & Technologies
 
 - **NetSuite SuiteScript 2.1** — Modern ES6+ syntax
 - **JavaScript** — Clean, maintainable code
-- **REST APIs** — External system integration
+- **RESTlet APIs** — External system integration with Token-Based Auth
+- **Postman** — API testing and documentation
 - **PDF Generation** — N/render for professional documents
 
 ---
@@ -122,7 +140,8 @@ I help businesses:
 - **Fast debugging** — Can understand and fix existing code quickly
 - **Business focus** — Solutions tied to real problems, not just code
 - **Clean code** — Well-documented, maintainable, follows best practices
-- **Full stack** — User Events, Client Scripts, Suitelets, Map/Reduce, Scheduled
+- **Full stack** — User Events, Client Scripts, Suitelets, Map/Reduce, Scheduled, RESTlets
+- **API Integration** — External system connectivity with proper authentication
 
 ---
 
@@ -131,6 +150,7 @@ I help businesses:
 Available for:
 - Quick fixes and bug repairs
 - Small automation tasks
+- API integrations (Shopify, WooCommerce, custom systems)
 - Part-time ongoing NetSuite support
 - Urgent issues with fast turnaround
 
@@ -140,3 +160,4 @@ Available for:
 
 - [Deployment Guide](docs/DEPLOYMENT.md) — How to install and configure scripts
 - [API Reference](docs/API.md) — Utility library documentation
+- [Postman Collection](postman/README.md) — RESTlet API testing guide

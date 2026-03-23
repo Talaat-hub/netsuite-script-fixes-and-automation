@@ -20,6 +20,7 @@ SuiteScripts/
 ├── user-event-scripts/
 ├── client-scripts/
 ├── suitelets/
+├── restlets/
 ├── map-reduce/
 ├── scheduled-scripts/
 └── libraries/
@@ -52,6 +53,16 @@ SuiteScripts/
 | po_sl_print | customscript_po_sl_print | customdeploy_po_sl_print |
 | emp_sl_print | customscript_emp_sl_print | customdeploy_emp_sl_print |
 | cust_sl_statement | customscript_cust_sl_statement | customdeploy_cust_sl_statement |
+
+**RESTlets (External API)**
+
+| Script | Script ID | Deployment ID | Status |
+|--------|-----------|---------------|--------|
+| rl_customer_api | customscript_rl_customer_api | customdeploy_rl_customer_api | Released |
+| rl_inventory_api | customscript_rl_inventory_api | customdeploy_rl_inventory_api | Released |
+| rl_order_api | customscript_rl_order_api | customdeploy_rl_order_api | Released |
+
+> **RESTlet Authentication:** Uses Token-Based Authentication (TBA). See [Postman setup guide](../postman/README.md).
 
 **Map/Reduce Scripts**
 
@@ -163,3 +174,46 @@ If issues occur after deployment:
 - Script deployments set to "Released"
 - Monitor Execution Log for first 24 hours
 - Keep rollback plan ready
+
+---
+
+## RESTlet Integration Setup
+
+### Enable Token-Based Authentication
+
+1. Navigate to **Setup > Company > Enable Features**
+2. Go to **SuiteCloud** subtab
+3. Check **Token-Based Authentication**
+4. Save
+
+### Create Integration Record
+
+1. Navigate to **Setup > Integration > Manage Integrations > New**
+2. Enter Name: `External System Integration`
+3. Check **Token-Based Authentication**
+4. Save and copy **Consumer Key** and **Consumer Secret**
+
+### Create Access Token
+
+1. Navigate to **Setup > Users/Roles > Access Tokens > New**
+2. Select Application (your Integration)
+3. Select User and Role
+4. Save and copy **Token ID** and **Token Secret**
+
+### RESTlet URL Format
+
+```
+https://[ACCOUNT_ID].restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=[SCRIPT_ID]&deploy=[DEPLOY_ID]
+```
+
+Example:
+```
+https://123456.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api
+```
+
+### Role Requirements
+
+The role assigned to the access token must have:
+- **Login Using Access Tokens** permission
+- **RESTlet** permission (Web Services subtab)
+- Appropriate record permissions (Customer, Sales Order, etc.)

@@ -1,0 +1,631 @@
+{
+    "info": {
+        "name": "NetSuite RESTlet API Collection",
+        "_postman_id": "netsuite-restlet-collection",
+        "description": "Complete API collection for interacting with NetSuite RESTlets using Token-Based Authentication (TBA).\n\n## Authentication Setup\n1. Create Integration Record in NetSuite (Setup > Integration > Manage Integrations)\n2. Enable Token-Based Authentication\n3. Create Access Tokens (Setup > Users/Roles > Access Tokens)\n4. Configure OAuth 1.0 in Postman with your credentials\n\n## Environment Variables Required\n- `ns_account_id`: Your NetSuite Account ID (e.g., 123456)\n- `ns_consumer_key`: Integration Consumer Key\n- `ns_consumer_secret`: Integration Consumer Secret\n- `ns_token_id`: Access Token ID\n- `ns_token_secret`: Access Token Secret\n- `ns_restlet_url`: Base RESTlet URL",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "auth": {
+        "type": "oauth1",
+        "oauth1": [
+            {
+                "key": "consumerKey",
+                "value": "{{ns_consumer_key}}",
+                "type": "string"
+            },
+            {
+                "key": "consumerSecret",
+                "value": "{{ns_consumer_secret}}",
+                "type": "string"
+            },
+            {
+                "key": "token",
+                "value": "{{ns_token_id}}",
+                "type": "string"
+            },
+            {
+                "key": "tokenSecret",
+                "value": "{{ns_token_secret}}",
+                "type": "string"
+            },
+            {
+                "key": "signatureMethod",
+                "value": "HMAC-SHA256",
+                "type": "string"
+            },
+            {
+                "key": "realm",
+                "value": "{{ns_account_id}}",
+                "type": "string"
+            },
+            {
+                "key": "addParamsToHeader",
+                "value": true,
+                "type": "boolean"
+            }
+        ]
+    },
+    "item": [
+        {
+            "name": "Customer API",
+            "description": "Customer management endpoints - Create, Read, Update, Deactivate customers",
+            "item": [
+                {
+                    "name": "Get Customer by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&id={{customer_id}}",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["customer"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_customer_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_customer_api"
+                                },
+                                {
+                                    "key": "id",
+                                    "value": "{{customer_id}}",
+                                    "description": "NetSuite Internal ID of the customer"
+                                }
+                            ]
+                        },
+                        "description": "Retrieve customer details by NetSuite Internal ID"
+                    },
+                    "response": [
+                        {
+                            "name": "Success Response",
+                            "status": "OK",
+                            "code": 200,
+                            "body": "{\n    \"success\": true,\n    \"data\": {\n        \"id\": \"12345\",\n        \"entityid\": \"CUST001\",\n        \"companyname\": \"Acme Corporation\",\n        \"email\": \"contact@acme.com\",\n        \"phone\": \"555-123-4567\",\n        \"balance\": 1500.00,\n        \"creditlimit\": 50000.00,\n        \"isinactive\": false\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Customer by Email",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&email={{customer_email}}",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["customer"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_customer_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_customer_api"
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "{{customer_email}}",
+                                    "description": "Customer email address"
+                                }
+                            ]
+                        },
+                        "description": "Search for customer by email address"
+                    }
+                },
+                {
+                    "name": "Create Customer",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"companyname\": \"New Company Inc.\",\n    \"email\": \"contact@newcompany.com\",\n    \"phone\": \"555-987-6543\",\n    \"subsidiary\": 1,\n    \"address\": {\n        \"addr1\": \"123 Main Street\",\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"zip\": \"10001\",\n        \"country\": \"US\"\n    }\n}"
+                        },
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["customer"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_customer_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_customer_api"
+                                }
+                            ]
+                        },
+                        "description": "Create a new customer in NetSuite. Can create company or individual."
+                    },
+                    "response": [
+                        {
+                            "name": "Success Response",
+                            "status": "OK",
+                            "code": 200,
+                            "body": "{\n    \"success\": true,\n    \"message\": \"Customer created successfully\",\n    \"data\": {\n        \"id\": 12346\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Create Individual Customer",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"firstname\": \"John\",\n    \"lastname\": \"Smith\",\n    \"email\": \"john.smith@email.com\",\n    \"phone\": \"555-111-2222\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["customer"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_customer_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_customer_api"
+                                }
+                            ]
+                        },
+                        "description": "Create an individual (person) customer"
+                    }
+                },
+                {
+                    "name": "Update Customer",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"id\": {{customer_id}},\n    \"phone\": \"555-999-8888\",\n    \"comments\": \"Updated via API\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["customer"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_customer_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_customer_api"
+                                }
+                            ]
+                        },
+                        "description": "Update an existing customer's information"
+                    }
+                },
+                {
+                    "name": "Deactivate Customer",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&id={{customer_id}}",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["customer"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_customer_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_customer_api"
+                                },
+                                {
+                                    "key": "id",
+                                    "value": "{{customer_id}}"
+                                }
+                            ]
+                        },
+                        "description": "Soft delete - marks customer as inactive"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Inventory API",
+            "description": "Real-time inventory lookup endpoints",
+            "item": [
+                {
+                    "name": "Get Inventory by Item ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/inventory?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&itemId={{item_id}}",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["inventory"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_inventory_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_inventory_api"
+                                },
+                                {
+                                    "key": "itemId",
+                                    "value": "{{item_id}}"
+                                }
+                            ]
+                        },
+                        "description": "Get inventory levels for a single item by Internal ID"
+                    },
+                    "response": [
+                        {
+                            "name": "Success Response",
+                            "status": "OK",
+                            "code": 200,
+                            "body": "{\n    \"success\": true,\n    \"data\": {\n        \"item\": {\n            \"id\": \"5001\",\n            \"sku\": \"WIDGET-001\",\n            \"name\": \"Premium Widget\",\n            \"type\": \"Inventory Item\",\n            \"isActive\": true\n        },\n        \"inventory\": {\n            \"totalOnHand\": 150,\n            \"totalAvailable\": 125,\n            \"inStock\": true,\n            \"locations\": [\n                {\n                    \"locationId\": \"1\",\n                    \"locationName\": \"Main Warehouse\",\n                    \"onHand\": 100,\n                    \"available\": 85,\n                    \"onOrder\": 50,\n                    \"committed\": 15\n                },\n                {\n                    \"locationId\": \"2\",\n                    \"locationName\": \"East Coast DC\",\n                    \"onHand\": 50,\n                    \"available\": 40,\n                    \"onOrder\": 0,\n                    \"committed\": 10\n                }\n            ]\n        },\n        \"timestamp\": \"2024-01-15T14:30:00.000Z\"\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Inventory by SKU",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/inventory?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&sku={{item_sku}}",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["inventory"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_inventory_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_inventory_api"
+                                },
+                                {
+                                    "key": "sku",
+                                    "value": "{{item_sku}}"
+                                }
+                            ]
+                        },
+                        "description": "Get inventory levels by item SKU/Item ID"
+                    }
+                },
+                {
+                    "name": "Get Inventory by Location",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/inventory?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&itemId={{item_id}}&location={{location_id}}",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["inventory"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_inventory_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_inventory_api"
+                                },
+                                {
+                                    "key": "itemId",
+                                    "value": "{{item_id}}"
+                                },
+                                {
+                                    "key": "location",
+                                    "value": "{{location_id}}"
+                                }
+                            ]
+                        },
+                        "description": "Get inventory for specific item at specific location"
+                    }
+                },
+                {
+                    "name": "Bulk Inventory Check",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"items\": [\n        { \"sku\": \"WIDGET-001\" },\n        { \"sku\": \"WIDGET-002\" },\n        { \"itemId\": 5003 },\n        { \"sku\": \"GADGET-001\" }\n    ],\n    \"location\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/inventory?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["inventory"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_inventory_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_inventory_api"
+                                }
+                            ]
+                        },
+                        "description": "Check inventory for multiple items in a single request"
+                    },
+                    "response": [
+                        {
+                            "name": "Success Response",
+                            "status": "OK",
+                            "code": 200,
+                            "body": "{\n    \"success\": true,\n    \"data\": {\n        \"itemCount\": 4,\n        \"items\": [\n            {\n                \"request\": { \"sku\": \"WIDGET-001\" },\n                \"response\": {\n                    \"success\": true,\n                    \"data\": {\n                        \"item\": { \"id\": \"5001\", \"sku\": \"WIDGET-001\" },\n                        \"inventory\": { \"totalAvailable\": 125, \"inStock\": true }\n                    }\n                }\n            },\n            {\n                \"request\": { \"sku\": \"WIDGET-002\" },\n                \"response\": {\n                    \"success\": true,\n                    \"data\": {\n                        \"item\": { \"id\": \"5002\", \"sku\": \"WIDGET-002\" },\n                        \"inventory\": { \"totalAvailable\": 0, \"inStock\": false }\n                    }\n                }\n            }\n        ]\n    }\n}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Order API",
+            "description": "E-commerce/EDI order creation and management",
+            "item": [
+                {
+                    "name": "Get Order by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api&orderId={{order_id}}",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["order"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_order_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_order_api"
+                                },
+                                {
+                                    "key": "orderId",
+                                    "value": "{{order_id}}"
+                                }
+                            ]
+                        },
+                        "description": "Get order details by NetSuite Internal ID"
+                    },
+                    "response": [
+                        {
+                            "name": "Success Response",
+                            "status": "OK",
+                            "code": 200,
+                            "body": "{\n    \"success\": true,\n    \"data\": {\n        \"orderId\": \"50001\",\n        \"tranId\": \"SO-10542\",\n        \"externalId\": \"SHOP-12345\",\n        \"customer\": \"Acme Corporation\",\n        \"status\": \"Pending Fulfillment\",\n        \"orderDate\": \"2024-01-15\",\n        \"subtotal\": 1250.00,\n        \"total\": 1375.00,\n        \"items\": [\n            {\n                \"item\": \"Premium Widget\",\n                \"quantity\": 10,\n                \"rate\": 100.00,\n                \"amount\": 1000.00\n            },\n            {\n                \"item\": \"Standard Gadget\",\n                \"quantity\": 5,\n                \"rate\": 50.00,\n                \"amount\": 250.00\n            }\n        ]\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Order by External ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api&externalId={{external_order_id}}",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["order"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_order_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_order_api"
+                                },
+                                {
+                                    "key": "externalId",
+                                    "value": "{{external_order_id}}"
+                                }
+                            ]
+                        },
+                        "description": "Get order by external system order ID (e.g., Shopify order number)"
+                    }
+                },
+                {
+                    "name": "Create Order - Existing Customer",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"externalId\": \"SHOP-67890\",\n    \"customerId\": 12345,\n    \"orderDate\": \"2024-01-15\",\n    \"memo\": \"Shopify Order #67890\",\n    \"shipMethod\": 1,\n    \"items\": [\n        {\n            \"sku\": \"WIDGET-001\",\n            \"quantity\": 5,\n            \"rate\": 99.99\n        },\n        {\n            \"itemId\": 5002,\n            \"quantity\": 2,\n            \"rate\": 149.99,\n            \"description\": \"Premium version\"\n        }\n    ],\n    \"shippingAddress\": {\n        \"addressee\": \"John Smith\",\n        \"addr1\": \"456 Oak Avenue\",\n        \"city\": \"Los Angeles\",\n        \"state\": \"CA\",\n        \"zip\": \"90001\",\n        \"country\": \"US\"\n    }\n}"
+                        },
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["order"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_order_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_order_api"
+                                }
+                            ]
+                        },
+                        "description": "Create Sales Order for existing customer using NetSuite customer ID"
+                    },
+                    "response": [
+                        {
+                            "name": "Success Response",
+                            "status": "OK",
+                            "code": 200,
+                            "body": "{\n    \"success\": true,\n    \"message\": \"Sales Order created successfully\",\n    \"data\": {\n        \"orderId\": 50002,\n        \"externalId\": \"SHOP-67890\",\n        \"total\": 799.93\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Create Order - New Customer",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"externalId\": \"WOO-11111\",\n    \"customer\": {\n        \"firstname\": \"Jane\",\n        \"lastname\": \"Doe\",\n        \"email\": \"jane.doe@example.com\"\n    },\n    \"items\": [\n        {\n            \"sku\": \"GADGET-001\",\n            \"quantity\": 3,\n            \"rate\": 75.00\n        }\n    ]\n}"
+                        },
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["order"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_order_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_order_api"
+                                }
+                            ]
+                        },
+                        "description": "Create Sales Order with customer data - will find existing customer by email or create new"
+                    }
+                },
+                {
+                    "name": "Update Order Status",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"orderId\": {{order_id}},\n    \"status\": \"B\",\n    \"tracking\": \"1Z999AA10123456784\",\n    \"memo\": \"Shipped via UPS Ground\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
+                            "host": ["{{ns_restlet_url}}"],
+                            "path": ["order"],
+                            "query": [
+                                {
+                                    "key": "script",
+                                    "value": "customscript_rl_order_api"
+                                },
+                                {
+                                    "key": "deploy",
+                                    "value": "customdeploy_rl_order_api"
+                                }
+                            ]
+                        },
+                        "description": "Update order status and add tracking information"
+                    }
+                }
+            ]
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Pre-request script for all requests in collection",
+                    "console.log('Executing request to:', pm.request.url.toString());"
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Common tests for all responses",
+                    "pm.test('Response is JSON', function() {",
+                    "    pm.response.to.be.json;",
+                    "});",
+                    "",
+                    "pm.test('Response has success field', function() {",
+                    "    var jsonData = pm.response.json();",
+                    "    pm.expect(jsonData).to.have.property('success');",
+                    "});"
+                ]
+            }
+        }
+    ]
+}
