@@ -57,7 +57,7 @@ define(['N/record', 'N/search', 'N/url', 'N/runtime'], (record, search, url, run
                 }
 
                 // Set client script
-                form.clientScriptModulePath = './so_cs_buttons.js';
+                form.clientScriptModulePath = '../client-scripts/so_cs_buttons.js';
             }
 
             if (type === context.UserEventType.CREATE) {

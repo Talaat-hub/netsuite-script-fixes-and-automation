@@ -64,7 +64,7 @@ define(['N/record', 'N/search', 'N/email', 'N/runtime', 'N/url'], (record, searc
                     });
                 }
 
-                form.clientScriptModulePath = './po_cs_buttons.js';
+                form.clientScriptModulePath = '../client-scripts/po_cs_buttons.js';
             }
 
         } catch (errBeforeLoad) {

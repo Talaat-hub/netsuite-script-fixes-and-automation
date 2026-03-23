@@ -1,88 +1,142 @@
 # NetSuite Script Fixes & Automation
 
-Real-world SuiteScript 2.1 solutions for common NetSuite problems.
+Real NetSuite SuiteScript solutions focused on fixing issues, automating workflows, and improving system behavior.
+
+---
 
 ## 🔧 What I Do
 
-- **Fix broken scripts** - Debug and repair existing SuiteScript that isn't working
-- **Automate manual work** - Turn repetitive tasks into automated workflows
-- **Build integrations** - Connect NetSuite to external systems via REST APIs
-- **Custom printouts** - Professional PDF documents (invoices, statements, ID cards)
-- **Batch processing** - Handle large data volumes efficiently
+I help businesses:
 
-## 📁 Solutions
+- **Fix broken or partially working SuiteScript** — Debug and repair scripts that aren't working correctly
+- **Automate manual processes** — Turn repetitive tasks into automated workflows
+- **Debug and improve existing scripts** — Find and fix logic issues, improve performance
+- **Build integrations** — Connect NetSuite to external systems via REST APIs
 
-### Sales Order Automation
-| Problem | Solution |
-|---------|----------|
-| Manual margin calculations causing pricing errors | Auto-calculate margins on line item entry |
-| No way to get live exchange rates | Popup fetches rates from external API |
-| Generic printouts don't match branding | Custom PDF with company template |
+---
 
-**Files:** `SalesOrder/`
+## 📁 Example Work
 
-### Purchase Order Approval Workflow
-| Problem | Solution |
-|---------|----------|
-| POs going through without proper approval | Multi-level approval with budget validation |
-| No visibility into approval status | Status tracking with email notifications |
-| Manual receiving process | One-click item receipt creation |
+### 1. Sales Order Automation
 
-**Files:** `PurchaseOrder/`
+**Problem:** Sales team manually calculating margins, looking up exchange rates, and creating invoices one by one. Errors in pricing, outdated rates, hours wasted.
 
-### Employee Management (HRMS)
-| Problem | Solution |
-|---------|----------|
-| Manual employee ID assignment | Auto-generated employee codes |
-| No standard ID cards | PDF ID card with photo and QR code |
-| Document tracking gaps | Serial number system for all documents |
+**Solution:** Built User Event + Client Script + Suitelet combination that:
+- Auto-calculates margins when line items are entered
+- Fetches live exchange rates from external API with one click
+- Custom PDF printouts matching company branding
 
-**Files:** `Employee/`
+**Result:** Eliminated pricing errors, current exchange rates always available, professional documents.
 
-### Customer Statements
-| Problem | Solution |
-|---------|----------|
-| Can't generate statements for custom date ranges | Date picker with running balance calculation |
-| Basic statement format | Professional PDF with company branding |
+**Files:** `user-event-scripts/so_ue_validation_buttons.js`, `client-scripts/so_cs_buttons.js`, `suitelets/so_sl_*.js`
 
-**Files:** `Customer/`
+---
 
-### Batch Invoice Generation
-| Problem | Solution |
-|---------|----------|
-| Creating invoices one-by-one takes hours | Bulk transform all pending SOs to invoices |
-| No visibility into batch job status | Email summary with success/error counts |
+### 2. Purchase Order Approval Workflow
 
-**Files:** `BatchProcessing/`
+**Problem:** POs going through without proper approval. Budget overruns discovered too late. No audit trail of who approved what.
 
-### Automated Reminders
-| Problem | Solution |
-|---------|----------|
-| Overdue invoices not followed up | Auto-send payment reminders before due date |
-| Quotes expiring without notice | Sales rep notifications for expiring quotes |
+**Solution:** Built approval workflow with:
+- Approve/Reject buttons based on user role
+- Automatic budget validation before approval
+- Vendor status checking
+- Email notifications on status changes
 
-**Files:** `Scheduled/`
+**Result:** Enforced approval chain, no more budget surprises, full audit history.
 
-## 🛠️ Tech Stack
+**Files:** `user-event-scripts/po_ue_approval.js`, `client-scripts/po_cs_buttons.js`
 
-- **SuiteScript 2.1** - Modern ES6+ syntax
-- **Script Types** - User Event, Client Script, Suitelet, Map/Reduce, Scheduled
-- **Modules** - N/record, N/search, N/render, N/https, N/email
+---
 
-## 📋 How I Work
+### 3. Batch Invoice Generation
 
-1. **Understand the problem** - What's broken or missing?
-2. **Propose solution** - Clear explanation before coding
-3. **Deliver working code** - Tested, documented, ready to deploy
-4. **Support** - Help with deployment and any issues
+**Problem:** Finance team creating invoices one-by-one from Sales Orders. Takes hours, orders get missed, no visibility into progress.
 
-## ⏱️ Availability
+**Solution:** Built Map/Reduce script that:
+- Finds all pending Sales Orders marked for invoicing
+- Transforms each to Invoice automatically
+- Sends email summary with success/error counts
 
-- Bug fixes and small tasks
-- Part-time ongoing support
-- Quick turnaround on urgent issues
+**Result:** Hours of work done in minutes, nothing missed, clear reporting.
+
+**Files:** `map-reduce/mr_batch_invoice.js`
+
+---
+
+### 4. Employee ID Card System
+
+**Problem:** No standard employee ID cards, manual employee code assignment causing duplicates, no document tracking.
+
+**Solution:** Built HRMS automation with:
+- Auto-generated unique employee codes
+- One-click ID card PDF printing
+- Document serial number tracking
+
+**Result:** Professional ID cards, no duplicate codes, complete document trail.
+
+**Files:** `user-event-scripts/emp_ue_hrms.js`, `suitelets/emp_sl_print.js`
+
+---
+
+### 5. Automated Payment Reminders
+
+**Problem:** Overdue invoices not followed up. Quotes expiring without sales rep knowing. Collections suffering.
+
+**Solution:** Built Scheduled Script that:
+- Sends payment reminders X days before invoice due date
+- Alerts sales reps when quotes are about to expire
+- Reminds assignees of upcoming task deadlines
+
+**Result:** Proactive follow-up, better collections, fewer missed opportunities.
+
+**Files:** `scheduled-scripts/ss_email_reminders.js`
+
+---
+
+### 6. Customer Statement Generator
+
+**Problem:** Standard NetSuite statements only for month-end. Customers asking for custom date ranges. No running balance shown.
+
+**Solution:** Built Suitelet with:
+- Date picker for custom start/end dates
+- Running balance calculation per transaction
+- Professional PDF with company branding
+
+**Result:** Any date range on demand, clear balance history, professional appearance.
+
+**Files:** `suitelets/cust_sl_statement.js`
+
+---
+
+## 🧰 Tools & Technologies
+
+- **NetSuite SuiteScript 2.1** — Modern ES6+ syntax
+- **JavaScript** — Clean, maintainable code
+- **REST APIs** — External system integration
+- **PDF Generation** — N/render for professional documents
+
+---
+
+## 🎯 What This Shows
+
+- **Fast debugging** — Can understand and fix existing code quickly
+- **Business focus** — Solutions tied to real problems, not just code
+- **Clean code** — Well-documented, maintainable, follows best practices
+- **Full stack** — User Events, Client Scripts, Suitelets, Map/Reduce, Scheduled
+
+---
+
+## 📌 Availability
+
+Available for:
+- Quick fixes and bug repairs
+- Small automation tasks
+- Part-time ongoing NetSuite support
+- Urgent issues with fast turnaround
+
+---
 
 ## 📂 Documentation
 
-- [Deployment Guide](docs/DEPLOYMENT.md) - How to install scripts
-- [API Reference](docs/API.md) - Utility library documentation
+- [Deployment Guide](docs/DEPLOYMENT.md) — How to install and configure scripts
+- [API Reference](docs/API.md) — Utility library documentation

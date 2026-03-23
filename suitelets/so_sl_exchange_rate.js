@@ -137,7 +137,7 @@ define(['N/ui/serverWidget', 'N/record', 'N/https', 'N/redirect', 'N/search', 'N
         });
 
         // Add client script
-        form.clientScriptModulePath = './so_cs_exchange_rate.js';
+        form.clientScriptModulePath = '../client-scripts/so_cs_exchange_rate.js';
 
         context.response.writePage(form);
     };

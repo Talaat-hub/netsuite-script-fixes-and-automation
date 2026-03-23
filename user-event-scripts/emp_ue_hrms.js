@@ -43,7 +43,7 @@ define(['N/record', 'N/search', 'N/runtime', 'N/format'], (record, search, runti
                 }
 
                 // Add Documents Print for PRINT context
-                form.clientScriptModulePath = './emp_cs_buttons.js';
+                form.clientScriptModulePath = '../client-scripts/emp_cs_buttons.js';
             }
 
             // On Print, get serial number

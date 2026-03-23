@@ -17,13 +17,12 @@
 Upload all script files to File Cabinet:
 ```
 SuiteScripts/
-├── SalesOrder/
-├── PurchaseOrder/
-├── Employee/
-├── Customer/
-├── BatchProcessing/
-├── Scheduled/
-└── Libraries/
+├── user-event-scripts/
+├── client-scripts/
+├── suitelets/
+├── map-reduce/
+├── scheduled-scripts/
+└── libraries/
 ```
 
 #### 2. Create Script Records
