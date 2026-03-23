@@ -2,8 +2,19 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
- * 
- * @description Purchase Order Print Suitelet - PDF generation
+ *
+ * PURPOSE:
+ * Generates professional PDF printout for Purchase Orders
+ *
+ * PROBLEM SOLVED:
+ * Before: Generic PO printouts, missing information, unprofessional appearance
+ * After: Branded PDF with vendor details, line items, approval status
+ *
+ * FEATURES:
+ * - Company header with logo placeholder
+ * - Vendor information section
+ * - Line item table with quantities and amounts
+ * - Totals and approval signature area
  */
 define(['N/record', 'N/search', 'N/render', 'N/format'], (record, search, render, format) => {
 

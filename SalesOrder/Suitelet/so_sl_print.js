@@ -2,10 +2,18 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
- * 
- * @description Sales Order Print Suitelet - Generates PDF printout
- * 
- * Pattern: GET request renders PDF from HTML template
+ *
+ * PURPOSE:
+ * Generates professional PDF printout for Sales Orders
+ *
+ * PROBLEM SOLVED:
+ * Before: Generic NetSuite printouts, no company branding, unprofessional appearance
+ * After: Custom branded PDF with logo, styled tables, proper formatting
+ *
+ * FEATURES:
+ * - Full HTML/CSS template with header, body, footer
+ * - Line item table with pricing and totals
+ * - Opens inline for immediate viewing
  */
 define(['N/record', 'N/search', 'N/render', 'N/file', 'N/format'], (record, search, render, file, format) => {
 

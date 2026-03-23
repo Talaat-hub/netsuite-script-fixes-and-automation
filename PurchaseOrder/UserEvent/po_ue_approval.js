@@ -2,8 +2,19 @@
  * @NApiVersion 2.1
  * @NScriptType UserEventScript
  * @NModuleScope SameAccount
- * 
- * @description Purchase Order User Event - Approval workflow, vendor validation, budget check
+ *
+ * PURPOSE:
+ * Implements multi-level PO approval workflow with budget validation
+ *
+ * PROBLEM SOLVED:
+ * Before: POs approved without proper review, budget overruns, no audit trail
+ * After: Enforced approval chain, automatic budget check, full audit history
+ *
+ * FEATURES:
+ * - Approve/Reject buttons based on user role
+ * - Validates PO against department budget
+ * - Checks vendor status before approval
+ * - Sends email notifications on status change
  */
 define(['N/record', 'N/search', 'N/email', 'N/runtime', 'N/url'], (record, search, email, runtime, url) => {
 

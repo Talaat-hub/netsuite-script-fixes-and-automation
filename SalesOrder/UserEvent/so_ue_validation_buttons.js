@@ -2,10 +2,18 @@
  * @NApiVersion 2.1
  * @NScriptType UserEventScript
  * @NModuleScope SameAccount
- * 
- * @description Sales Order User Event - Handles buttons, validation, and backend processing
- * 
- * Pattern: Add custom buttons on view, validate on submit, process after submit
+ *
+ * PURPOSE:
+ * Automates Sales Order validation and adds custom action buttons
+ *
+ * PROBLEM SOLVED:
+ * Before: Manual margin calculations, no quick print access, approval confusion
+ * After: Auto-calculated margins, one-click PDF print, clear approval workflow
+ *
+ * FEATURES:
+ * - Adds Print, Exchange Rate, and Approve buttons on record view
+ * - Validates line items and calculates margins before save
+ * - Creates related records after successful save
  */
 define(['N/record', 'N/search', 'N/url', 'N/runtime'], (record, search, url, runtime) => {
 

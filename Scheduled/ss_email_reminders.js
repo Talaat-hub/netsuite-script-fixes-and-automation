@@ -2,9 +2,20 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  * @NModuleScope SameAccount
- * 
- * @description Email Reminder Scheduler - Sends automated email notifications
- * 
+ *
+ * PURPOSE:
+ * Sends automated reminder emails before due dates
+ *
+ * PROBLEM SOLVED:
+ * Before: Overdue invoices not followed up, quotes expiring, missed tasks
+ * After: Proactive reminders, better collections, improved follow-through
+ *
+ * FEATURES:
+ * - Invoice payment reminders X days before due
+ * - Quote expiration alerts to sales reps
+ * - Task due date reminders to assignees
+ * - Configurable timing and recipients
+ *
  * @param {string} custscript_reminder_type - 'invoice', 'quote', or 'task'
  * @param {number} custscript_days_before - Days before due date to send reminder
  * @param {number} custscript_sender_employee - Employee ID for email sender

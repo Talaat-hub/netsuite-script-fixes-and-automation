@@ -2,10 +2,18 @@
  * @NApiVersion 2.1
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
- * 
- * @description Sales Order Client Script - Button handlers and field validations
- * 
- * Pattern: Page init, field change handlers, button click functions
+ *
+ * PURPOSE:
+ * Handles user interactions on Sales Order form
+ *
+ * PROBLEM SOLVED:
+ * Before: Users navigating away to print, manual field updates, no validation feedback
+ * After: Quick popup actions, real-time validation, instant user feedback
+ *
+ * FEATURES:
+ * - Print button opens PDF in popup window
+ * - Exchange rate button fetches live rates
+ * - Field validation prevents bad data entry
  */
 define(['N/url', 'N/https', 'N/currentRecord', 'N/ui/dialog'], (url, https, currentRecord, dialog) => {
 

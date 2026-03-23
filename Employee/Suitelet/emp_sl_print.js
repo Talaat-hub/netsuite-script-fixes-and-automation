@@ -2,8 +2,18 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
- * 
- * @description Employee Print Suitelet - ID Card and Profile printing
+ *
+ * PURPOSE:
+ * Generates professional ID cards and employee profile PDFs
+ *
+ * PROBLEM SOLVED:
+ * Before: No standard ID cards, manual profile creation, inconsistent formatting
+ * After: Branded ID cards with photo placeholder, consistent profile documents
+ *
+ * FEATURES:
+ * - ID Card: Credit card sized with photo, name, department, employee code
+ * - Profile: Full page with personal info, employment details, compensation
+ * - Both output as professional PDF documents
  */
 define(['N/record', 'N/render', 'N/search', 'N/file', 'N/format', 'N/encode'], 
     (record, render, search, file, format, encode) => {

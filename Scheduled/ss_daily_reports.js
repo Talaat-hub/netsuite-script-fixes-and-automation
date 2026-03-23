@@ -2,9 +2,20 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  * @NModuleScope SameAccount
- * 
- * @description Daily Report Generator - Scheduled job for automated reporting
- * 
+ *
+ * PURPOSE:
+ * Generates and emails daily business reports automatically
+ *
+ * PROBLEM SOLVED:
+ * Before: Manual report creation, inconsistent delivery, time-consuming
+ * After: Automatic daily reports, reliable delivery, no manual effort
+ *
+ * FEATURES:
+ * - Sales summary by subsidiary
+ * - Low stock inventory alerts
+ * - AR aging by customer bucket (current, 1-30, 31-60, 61-90, 90+)
+ * - Email delivery to configured recipients
+ *
  * @param {string} custscript_report_type - Report type: 'all', 'sales', 'inventory', 'ar'
  * @param {string} custscript_report_recipients - Comma-separated employee IDs
  */

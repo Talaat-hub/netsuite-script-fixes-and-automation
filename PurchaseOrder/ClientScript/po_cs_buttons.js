@@ -2,8 +2,18 @@
  * @NApiVersion 2.1
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
- * 
- * @description Purchase Order Client Script - Button handlers, validation
+ *
+ * PURPOSE:
+ * Handles PO approval actions and receiving workflow
+ *
+ * PROBLEM SOLVED:
+ * Before: Multiple clicks to approve, navigating to create receipts
+ * After: One-click approve/reject, instant receipt creation
+ *
+ * FEATURES:
+ * - Approve button with confirmation dialog
+ * - Reject button with reason prompt
+ * - Receive button creates Item Receipt automatically
  */
 define(['N/url', 'N/https', 'N/currentRecord', 'N/ui/dialog'], (url, https, currentRecord, dialog) => {
 

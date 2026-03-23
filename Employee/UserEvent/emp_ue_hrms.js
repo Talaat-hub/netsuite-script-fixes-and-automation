@@ -2,8 +2,19 @@
  * @NApiVersion 2.1
  * @NScriptType UserEventScript
  * @NModuleScope SameAccount
- * 
- * @description Employee User Event - HRMS serial number generation, document management
+ *
+ * PURPOSE:
+ * Automates employee record management and document tracking
+ *
+ * PROBLEM SOLVED:
+ * Before: Manual employee ID assignment, no document tracking, inconsistent codes
+ * After: Auto-generated employee codes, serial numbers for documents, consistent format
+ *
+ * FEATURES:
+ * - Auto-generates unique employee code on creation
+ * - Tracks document serial numbers for printing
+ * - Adds Print ID Card and QR Code buttons
+ * - Validates required employee data
  */
 define(['N/record', 'N/search', 'N/runtime', 'N/format'], (record, search, runtime, format) => {
 

@@ -1,127 +1,88 @@
-# NetSuite SuiteScript Customizations
+# NetSuite Script Fixes & Automation
 
-Custom SuiteScript 2.1 implementations for NetSuite ERP system.
+Real-world SuiteScript 2.1 solutions for common NetSuite problems.
 
-## Overview
+## 🔧 What I Do
 
-This repository contains production SuiteScript customizations organized by functional area:
+- **Fix broken scripts** - Debug and repair existing SuiteScript that isn't working
+- **Automate manual work** - Turn repetitive tasks into automated workflows
+- **Build integrations** - Connect NetSuite to external systems via REST APIs
+- **Custom printouts** - Professional PDF documents (invoices, statements, ID cards)
+- **Batch processing** - Handle large data volumes efficiently
 
-- **Transaction Processing** - Sales Orders, Purchase Orders
-- **HRMS** - Employee management, ID cards, document tracking
-- **Customer Management** - Statements, account management
-- **Batch Operations** - Invoice generation, inventory sync
-- **Scheduled Jobs** - Reports, notifications, maintenance
+## 📁 Solutions
 
-## Repository Structure
+### Sales Order Automation
+| Problem | Solution |
+|---------|----------|
+| Manual margin calculations causing pricing errors | Auto-calculate margins on line item entry |
+| No way to get live exchange rates | Popup fetches rates from external API |
+| Generic printouts don't match branding | Custom PDF with company template |
 
-```
-├── SalesOrder/
-│   ├── UserEvent/so_ue_validation_buttons.js
-│   ├── ClientScript/so_cs_buttons.js
-│   └── Suitelet/
-│       ├── so_sl_print.js
-│       └── so_sl_exchange_rate.js
-│
-├── PurchaseOrder/
-│   ├── UserEvent/po_ue_approval.js
-│   ├── ClientScript/po_cs_buttons.js
-│   └── Suitelet/po_sl_print.js
-│
-├── Employee/
-│   ├── UserEvent/emp_ue_hrms.js
-│   ├── ClientScript/emp_cs_buttons.js
-│   └── Suitelet/emp_sl_print.js
-│
-├── Customer/
-│   └── Suitelet/cust_sl_statement.js
-│
-├── BatchProcessing/
-│   └── MapReduce/
-│       ├── mr_batch_invoice.js
-│       └── mr_inventory_sync.js
-│
-├── Scheduled/
-│   ├── ss_daily_reports.js
-│   └── ss_email_reminders.js
-│
-└── Libraries/
-    └── lib_utils.js
-```
+**Files:** `SalesOrder/`
 
-## Requirements
+### Purchase Order Approval Workflow
+| Problem | Solution |
+|---------|----------|
+| POs going through without proper approval | Multi-level approval with budget validation |
+| No visibility into approval status | Status tracking with email notifications |
+| Manual receiving process | One-click item receipt creation |
 
-- NetSuite Account with SuiteScript 2.1 support
-- SuiteCloud Development Framework (optional, for local development)
-- Appropriate role permissions for script deployment
+**Files:** `PurchaseOrder/`
 
-## Installation
+### Employee Management (HRMS)
+| Problem | Solution |
+|---------|----------|
+| Manual employee ID assignment | Auto-generated employee codes |
+| No standard ID cards | PDF ID card with photo and QR code |
+| Document tracking gaps | Serial number system for all documents |
 
-1. Clone the repository
-2. Upload scripts to File Cabinet under `SuiteScripts/`
-3. Create Script records and deployments as documented in `docs/DEPLOYMENT.md`
-4. Configure script parameters per environment
+**Files:** `Employee/`
 
-## Script Naming Convention
+### Customer Statements
+| Problem | Solution |
+|---------|----------|
+| Can't generate statements for custom date ranges | Date picker with running balance calculation |
+| Basic statement format | Professional PDF with company branding |
 
-| Component | Format | Example |
-|-----------|--------|---------|
-| File | `{module}_{type}_{function}.js` | `so_ue_validation_buttons.js` |
-| Script ID | `customscript_{module}_{type}_{function}` | `customscript_so_ue_validation` |
-| Deployment | `customdeploy_{module}_{type}_{function}` | `customdeploy_so_ue_validation` |
+**Files:** `Customer/`
 
-## Configuration
+### Batch Invoice Generation
+| Problem | Solution |
+|---------|----------|
+| Creating invoices one-by-one takes hours | Bulk transform all pending SOs to invoices |
+| No visibility into batch job status | Email summary with success/error counts |
 
-### Script Parameters
+**Files:** `BatchProcessing/`
 
-Each script requiring configuration uses script parameters. See individual script headers for required parameters:
+### Automated Reminders
+| Problem | Solution |
+|---------|----------|
+| Overdue invoices not followed up | Auto-send payment reminders before due date |
+| Quotes expiring without notice | Sales rep notifications for expiring quotes |
 
-- `ss_daily_reports.js` - Report type, recipient list
-- `ss_email_reminders.js` - Reminder type, days before due, sender ID
-- `mr_batch_invoice.js` - Notification email
-- `mr_inventory_sync.js` - Last sync date
+**Files:** `Scheduled/`
 
-### Custom Records
+## 🛠️ Tech Stack
 
-Some scripts depend on custom records:
-- `customrecord_employee_documents` - Employee document tracking
-- `customrecord_location_sync` - Inventory sync status
+- **SuiteScript 2.1** - Modern ES6+ syntax
+- **Script Types** - User Event, Client Script, Suitelet, Map/Reduce, Scheduled
+- **Modules** - N/record, N/search, N/render, N/https, N/email
 
-### Custom Fields
+## 📋 How I Work
 
-Required custom fields on standard records:
-- `custbody_batch_process` (Transaction) - Flag for batch processing
-- `custbody_invoice_created` (Sales Order) - Invoice creation status
-- `custentity_employee_code` (Employee) - Auto-generated employee ID
-- `custentity_years_of_service` (Employee) - Calculated tenure
+1. **Understand the problem** - What's broken or missing?
+2. **Propose solution** - Clear explanation before coding
+3. **Deliver working code** - Tested, documented, ready to deploy
+4. **Support** - Help with deployment and any issues
 
-## Development
+## ⏱️ Availability
 
-### Local Setup
+- Bug fixes and small tasks
+- Part-time ongoing support
+- Quick turnaround on urgent issues
 
-```bash
-# Install SuiteCloud CLI
-npm install -g @oracle/suitecloud-cli
+## 📂 Documentation
 
-# Initialize project
-suitecloud project:create -i
-
-# Deploy to sandbox
-suitecloud file:upload --paths "/SuiteScripts/**"
-```
-
-### Testing
-
-- Test in Sandbox environment before production deployment
-- Use Script Debugger for troubleshooting
-- Check Execution Log for runtime errors
-
-## Contributing
-
-1. Create feature branch from `main`
-2. Follow existing code style and naming conventions
-3. Test thoroughly in sandbox
-4. Submit pull request with description of changes
-
-## License
-
-Proprietary - Internal use only
+- [Deployment Guide](docs/DEPLOYMENT.md) - How to install scripts
+- [API Reference](docs/API.md) - Utility library documentation

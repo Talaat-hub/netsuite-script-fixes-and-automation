@@ -2,11 +2,18 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
- * 
- * @description Exchange Rate Suitelet - Fetches rate from external API and updates record
- * 
- * Pattern: GET shows form, POST fetches rate and updates transaction
- * Similar to SuiteXtd pattern for passing values from Suitelet to UserEvent
+ *
+ * PURPOSE:
+ * Fetches live exchange rates from external API and updates transaction
+ *
+ * PROBLEM SOLVED:
+ * Before: Manual rate lookup, copy-paste errors, outdated rates
+ * After: One-click rate fetch, auto-updates transaction, audit trail
+ *
+ * FEATURES:
+ * - Popup form shows current vs new rate
+ * - Fetches rate from external API
+ * - Updates Sales Order with new rate on confirm
  */
 define(['N/ui/serverWidget', 'N/record', 'N/https', 'N/redirect', 'N/search', 'N/format'], 
     (serverWidget, record, https, redirect, search, format) => {

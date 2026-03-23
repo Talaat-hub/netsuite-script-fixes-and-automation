@@ -2,8 +2,19 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
- * 
- * @description Customer Statement Suitelet - Date-based statement printout with popup date selector
+ *
+ * PURPOSE:
+ * Generates customer account statements for any date range
+ *
+ * PROBLEM SOLVED:
+ * Before: Standard statements fixed to month-end, no running balance, basic format
+ * After: Custom date range picker, running balance calculation, professional PDF
+ *
+ * FEATURES:
+ * - Popup date picker for start/end dates
+ * - Searches all transactions in date range
+ * - Calculates running balance for each transaction
+ * - Generates PDF with debit/credit columns and totals
  */
 define(['N/ui/serverWidget', 'N/record', 'N/search', 'N/render', 'N/format', 'N/url'], 
     (serverWidget, record, search, render, format, url) => {

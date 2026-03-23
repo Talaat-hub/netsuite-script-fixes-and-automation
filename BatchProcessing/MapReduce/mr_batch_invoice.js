@@ -2,9 +2,20 @@
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
  * @NModuleScope SameAccount
- * 
- * @description Batch Invoice Generator - Transforms pending Sales Orders to Invoices
- * 
+ *
+ * PURPOSE:
+ * Bulk converts pending Sales Orders to Invoices
+ *
+ * PROBLEM SOLVED:
+ * Before: Creating invoices one-by-one, hours of manual work, missed orders
+ * After: One-click batch conversion, email summary, error tracking
+ *
+ * FEATURES:
+ * - Finds all SOs marked for batch processing
+ * - Transforms each SO to Invoice
+ * - Groups results by customer for reporting
+ * - Sends email summary with success/error counts
+ *
  * @param {string} custscript_batch_notify_email - Email for completion notification
  */
 define(['N/record', 'N/search', 'N/email', 'N/runtime', 'N/format'], 

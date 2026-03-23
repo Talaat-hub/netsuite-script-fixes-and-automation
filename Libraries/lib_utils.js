@@ -1,10 +1,20 @@
 /**
  * @NApiVersion 2.1
  * @NModuleScope SameAccount
- * 
- * @description Shared Utility Library - Common functions used across scripts
- * 
- * Pattern: AMD module pattern for SuiteScript 2.x shared libraries
+ *
+ * PURPOSE:
+ * Shared utility functions used across all scripts
+ *
+ * PROBLEM SOLVED:
+ * Before: Duplicated code, inconsistent implementations, maintenance burden
+ * After: Single source of truth, consistent behavior, easier maintenance
+ *
+ * INCLUDES:
+ * - Search utilities (pagination, array conversion)
+ * - Date utilities (parsing, formatting, ranges)
+ * - Currency utilities (formatting, parsing, rounding)
+ * - Governance checking for long-running scripts
+ * - Validation helpers (email, phone)
  */
 define(['N/search', 'N/format', 'N/runtime', 'N/log'], 
     (search, format, runtime, log) => {

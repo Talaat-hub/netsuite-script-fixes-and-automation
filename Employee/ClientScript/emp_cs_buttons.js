@@ -2,8 +2,19 @@
  * @NApiVersion 2.1
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
- * 
- * @description Employee Client Script - Button handlers, field validations
+ *
+ * PURPOSE:
+ * Handles employee form interactions and ID card printing
+ *
+ * PROBLEM SOLVED:
+ * Before: No easy way to print ID cards, manual data entry errors
+ * After: One-click ID card print, real-time validation, auto-calculated fields
+ *
+ * FEATURES:
+ * - Print ID Card button opens popup with formatted card
+ * - Print Profile generates full employee profile PDF
+ * - Auto-calculates years of service
+ * - Validates email and phone formats
  */
 define(['N/url', 'N/https', 'N/currentRecord', 'N/ui/dialog', 'N/format'], 
     (url, https, currentRecord, dialog, format) => {

@@ -2,10 +2,19 @@
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
  * @NModuleScope SameAccount
- * 
- * @description Data Sync Map/Reduce - Syncs inventory levels across locations
- * 
- * Example of Map/Reduce with chunked processing for large data sets
+ *
+ * PURPOSE:
+ * Synchronizes inventory levels across all locations
+ *
+ * PROBLEM SOLVED:
+ * Before: Inventory discrepancies between locations, manual reconciliation
+ * After: Automated nightly sync, location-level totals, sync status tracking
+ *
+ * FEATURES:
+ * - Processes all inventory items modified since last sync
+ * - Aggregates quantities by location
+ * - Updates sync tracking records
+ * - Handles large data volumes with governance checks
  */
 define(['N/record', 'N/search', 'N/runtime', 'N/format', 'N/https', 'N/log'], 
     (record, search, runtime, format, https, log) => {
