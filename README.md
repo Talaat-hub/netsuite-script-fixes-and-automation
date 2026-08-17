@@ -161,3 +161,23 @@ Available for:
 - [Deployment Guide](docs/DEPLOYMENT.md) — How to install and configure scripts
 - [API Reference](docs/API.md) — Utility library documentation
 - [Postman Collection](postman/README.md) — RESTlet API testing guide
+
+---
+
+## ✅ Testing
+
+There's no automated test suite in this repo — validating changes here means deploying
+to a Sandbox account and exercising the scripts directly. The closest thing to a test
+harness is the [Postman collection](postman/) for the three RESTlets: import it,
+configure the environment variables listed in `postman/README.md`, and run the requests
+against a Sandbox account to confirm the Customer/Inventory/Order APIs behave as
+documented. (For a repo with an actual Jest unit-test setup for SuiteScript, see
+[SuiteScript-Usability-and-Documentations](https://github.com/Talaat-hub/SuiteScript-Usability-and-Documentations).)
+
+---
+
+## Author
+
+[Mahmoud Talaat](https://www.linkedin.com/in/mahmoudtalaat21/) – NetSuite / SuiteScript Developer
+
+Feel free to connect or reach out with questions about any of the patterns used here.

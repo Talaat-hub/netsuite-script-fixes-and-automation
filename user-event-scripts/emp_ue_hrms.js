@@ -15,8 +15,12 @@
  * - Tracks document serial numbers for printing
  * - Adds Print ID Card and QR Code buttons
  * - Validates required employee data
+ *
+ * @param {string} [custscript_emp_code_prefix] - Prefix used when generating employee
+ *        codes (e.g. "EMP" -> EMP-<subsidiary>-00001). Defaults to "EMP" if not set.
  */
-define(['N/record', 'N/search', 'N/runtime', 'N/format'], (record, search, runtime, format) => {
+define(['N/record', 'N/search', 'N/runtime', 'N/format', 'N/log', '../libraries/lib_utils'],
+    (record, search, runtime, format, log, libUtils) => {
 
     const beforeLoad = (context) => {
         try {
@@ -180,7 +184,7 @@ define(['N/record', 'N/search', 'N/runtime', 'N/format'], (record, search, runti
         }
 
         const email = rec.getValue('email');
-        if (email && !isValidEmail(email)) {
+        if (email && !libUtils.isValidEmail(email)) {
             throw new Error('Invalid email format');
         }
     };
@@ -203,7 +207,10 @@ define(['N/record', 'N/search', 'N/runtime', 'N/format'], (record, search, runti
                 return false;
             });
 
-            const code = `EMP-${subsidiary}-${String(lastId + 1).padStart(5, '0')}`;
+            // Prefix is a script parameter so the code format can be adapted per account
+            // instead of being hardcoded (defaults to "EMP" if not configured).
+            const prefix = runtime.getCurrentScript().getParameter('custscript_emp_code_prefix') || 'EMP';
+            const code = `${prefix}-${subsidiary}-${String(lastId + 1).padStart(5, '0')}`;
             rec.setValue({ fieldId: 'custentity_employee_code', value: code });
 
         } catch (e) {
@@ -219,10 +226,6 @@ define(['N/record', 'N/search', 'N/runtime', 'N/format'], (record, search, runti
     const handleTermination = (rec) => {
         log.audit('Employee Terminated', `Processing termination for ${rec.id}`);
         // Would close related records, revoke access, etc.
-    };
-
-    const isValidEmail = (email) => {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 
     return { beforeLoad, beforeSubmit, afterSubmit };

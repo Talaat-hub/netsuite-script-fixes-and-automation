@@ -61,9 +61,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&id={{customer_id}}",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["customer"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&id={{customer_id}}",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -102,9 +104,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&email={{customer_email}}",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["customer"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&email={{customer_email}}",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -139,9 +143,11 @@
                             "raw": "{\n    \"companyname\": \"New Company Inc.\",\n    \"email\": \"contact@newcompany.com\",\n    \"phone\": \"555-987-6543\",\n    \"subsidiary\": 1,\n    \"address\": {\n        \"addr1\": \"123 Main Street\",\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"zip\": \"10001\",\n        \"country\": \"US\"\n    }\n}"
                         },
                         "url": {
-                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["customer"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -179,9 +185,11 @@
                             "raw": "{\n    \"firstname\": \"John\",\n    \"lastname\": \"Smith\",\n    \"email\": \"john.smith@email.com\",\n    \"phone\": \"555-111-2222\"\n}"
                         },
                         "url": {
-                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["customer"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -211,9 +219,11 @@
                             "raw": "{\n    \"id\": {{customer_id}},\n    \"phone\": \"555-999-8888\",\n    \"comments\": \"Updated via API\"\n}"
                         },
                         "url": {
-                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["customer"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -239,9 +249,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{ns_restlet_url}}/customer?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&id={{customer_id}}",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["customer"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_customer_api&deploy=customdeploy_rl_customer_api&id={{customer_id}}",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -277,9 +289,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{ns_restlet_url}}/inventory?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&itemId={{item_id}}",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["inventory"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&itemId={{item_id}}",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -317,9 +331,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{ns_restlet_url}}/inventory?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&sku={{item_sku}}",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["inventory"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&sku={{item_sku}}",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -349,9 +365,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{ns_restlet_url}}/inventory?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&itemId={{item_id}}&location={{location_id}}",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["inventory"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api&itemId={{item_id}}&location={{location_id}}",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -389,9 +407,11 @@
                             "raw": "{\n    \"items\": [\n        { \"sku\": \"WIDGET-001\" },\n        { \"sku\": \"WIDGET-002\" },\n        { \"itemId\": 5003 },\n        { \"sku\": \"GADGET-001\" }\n    ],\n    \"location\": 1\n}"
                         },
                         "url": {
-                            "raw": "{{ns_restlet_url}}/inventory?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["inventory"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_inventory_api&deploy=customdeploy_rl_inventory_api",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -431,9 +451,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api&orderId={{order_id}}",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["order"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api&orderId={{order_id}}",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -471,9 +493,11 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api&externalId={{external_order_id}}",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["order"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api&externalId={{external_order_id}}",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -507,9 +531,11 @@
                             "raw": "{\n    \"externalId\": \"SHOP-67890\",\n    \"customerId\": 12345,\n    \"orderDate\": \"2024-01-15\",\n    \"memo\": \"Shopify Order #67890\",\n    \"shipMethod\": 1,\n    \"items\": [\n        {\n            \"sku\": \"WIDGET-001\",\n            \"quantity\": 5,\n            \"rate\": 99.99\n        },\n        {\n            \"itemId\": 5002,\n            \"quantity\": 2,\n            \"rate\": 149.99,\n            \"description\": \"Premium version\"\n        }\n    ],\n    \"shippingAddress\": {\n        \"addressee\": \"John Smith\",\n        \"addr1\": \"456 Oak Avenue\",\n        \"city\": \"Los Angeles\",\n        \"state\": \"CA\",\n        \"zip\": \"90001\",\n        \"country\": \"US\"\n    }\n}"
                         },
                         "url": {
-                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["order"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -547,9 +573,11 @@
                             "raw": "{\n    \"externalId\": \"WOO-11111\",\n    \"customer\": {\n        \"firstname\": \"Jane\",\n        \"lastname\": \"Doe\",\n        \"email\": \"jane.doe@example.com\"\n    },\n    \"items\": [\n        {\n            \"sku\": \"GADGET-001\",\n            \"quantity\": 3,\n            \"rate\": 75.00\n        }\n    ]\n}"
                         },
                         "url": {
-                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["order"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",
@@ -579,9 +607,11 @@
                             "raw": "{\n    \"orderId\": {{order_id}},\n    \"status\": \"B\",\n    \"tracking\": \"1Z999AA10123456784\",\n    \"memo\": \"Shipped via UPS Ground\"\n}"
                         },
                         "url": {
-                            "raw": "{{ns_restlet_url}}/order?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
-                            "host": ["{{ns_restlet_url}}"],
-                            "path": ["order"],
+                            "raw": "{{ns_restlet_url}}?script=customscript_rl_order_api&deploy=customdeploy_rl_order_api",
+                            "host": [
+                                "{{ns_restlet_url}}"
+                            ],
+                            "path": [],
                             "query": [
                                 {
                                     "key": "script",

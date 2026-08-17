@@ -83,6 +83,8 @@ SuiteScripts/
 **ss_daily_reports.js**
 - `custscript_report_type`: 'all', 'sales', 'inventory', or 'ar'
 - `custscript_report_recipients`: Comma-separated employee IDs
+- `custscript_report_sender` (optional): Employee ID to send from. Defaults to the
+  script's executing user if left blank.
 
 **ss_email_reminders.js**
 - `custscript_reminder_type`: 'invoice', 'quote', or 'task'
@@ -91,9 +93,48 @@ SuiteScripts/
 
 **mr_batch_invoice.js**
 - `custscript_batch_notify_email`: Email address for completion notifications
+- `custscript_batch_notify_sender` (optional): Employee ID to send the summary email
+  from. Defaults to the script's executing user if left blank.
 
 **mr_inventory_sync.js**
-- `custscript_last_sync_date`: Date of last successful sync
+- `custscript_last_sync_date`: Date of last successful sync. The script advances this
+  automatically at the end of each run (via `record.submitFields` on the deployment
+  record) — you don't need to maintain it by hand.
+
+**so_ue_validation_buttons.js**
+- `custscript_base_currency` (optional): Internal ID of the subsidiary's base currency;
+  used to decide whether to show the "Update Exchange Rate" button. Defaults to `1`.
+- `custscript_min_order_amount` (optional): Minimum allowed Sales Order total. Defaults
+  to `100` if not configured.
+
+**po_ue_approval.js**
+- `custscript_po_approval_threshold`: Dollar amount above which a PO requires approval.
+  Defaults to `5000`.
+- `custscript_po_approver_email`: Email address notified when a PO needs approval.
+- `custscript_po_approver_role`: Internal ID of the role allowed to see the
+  Approve/Reject buttons.
+
+**emp_ue_hrms.js**
+- `custscript_emp_code_prefix` (optional): Prefix used when generating employee codes
+  (e.g. "EMP" → `EMP-<subsidiary>-00001`). Defaults to `"EMP"`.
+
+### Known Limitations
+
+A few buttons in this repo call companion Suitelets that demonstrate the calling
+pattern (confirmation dialog → `N/https` request → reload) but are **not themselves
+included** in this repo. If you deploy this project as-is, these buttons will 404:
+
+| Button | Client script | Missing Suitelet script ID |
+|--------|---------------|------------------------------|
+| "Quick Approve" (Sales Order) | `so_cs_buttons.js` → `approveOrder()` | `customscript_so_sl_approve` |
+| "Generate QR Code" (Employee) | `emp_cs_buttons.js` → `generateQRCode()` | `customscript_emp_sl_qr` |
+| "Quick Receive" (Purchase Order) | `po_cs_buttons.js` → `receivePO()` | `customscript_po_sl_receive` |
+| "Approve"/"Reject" (Purchase Order) | `po_cs_buttons.js` → `processApproval()` | `customscript_po_sl_approval` |
+
+To make any of these functional, add a Suitelet under that script ID that performs the
+corresponding server-side action (flip an approval status field, create an Item
+Receipt, generate and store a QR code image, etc.) and deploy it. The `so_sl_exchange_rate`
+Suitelet is a good template to follow for the request/response shape.
 
 ### Post-Deployment
 

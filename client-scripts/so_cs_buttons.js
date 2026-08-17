@@ -178,6 +178,12 @@ define(['N/url', 'N/https', 'N/currentRecord', 'N/ui/dialog'], (url, https, curr
     /**
      * Quick approve order via Suitelet call
      * Called from UE button
+     *
+     * NOTE: this calls a Suitelet (`customscript_so_sl_approve`) that is not included
+     * in this repo. It's wired up as a working example of the confirm-then-POST pattern
+     * (N/ui/dialog + N/https promise); to make it functional you'd add a Suitelet that
+     * validates the caller's role and flips the order's approval status server-side.
+     * See docs/DEPLOYMENT.md "Known Limitations".
      */
     const approveOrder = (recId) => {
         try {

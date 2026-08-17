@@ -18,9 +18,11 @@
  *
  * @param {string} custscript_report_type - Report type: 'all', 'sales', 'inventory', 'ar'
  * @param {string} custscript_report_recipients - Comma-separated employee IDs
+ * @param {string} custscript_report_sender - Employee ID to send the report email from.
+ *        Falls back to the script's executing user if left blank.
  */
-define(['N/search', 'N/email', 'N/render', 'N/record', 'N/runtime', 'N/file', 'N/format'], 
-    (search, email, render, record, runtime, file, format) => {
+define(['N/search', 'N/email', 'N/runtime', 'N/format', 'N/log'],
+    (search, email, runtime, format, log) => {
 
     /**
      * Main execute function - entry point for scheduled script
@@ -32,6 +34,7 @@ define(['N/search', 'N/email', 'N/render', 'N/record', 'N/runtime', 'N/file', 'N
             const script = runtime.getCurrentScript();
             const reportType = script.getParameter('custscript_report_type') || 'all';
             const recipientIds = script.getParameter('custscript_report_recipients');
+            const senderId = script.getParameter('custscript_report_sender') || runtime.getCurrentUser().id;
 
             // Track governance
             const startUsage = script.getRemainingUsage();
@@ -56,7 +59,7 @@ define(['N/search', 'N/email', 'N/render', 'N/record', 'N/runtime', 'N/file', 'N
             }
 
             // Combine and send reports
-            sendReports(reports, recipientIds);
+            sendReports(reports, recipientIds, senderId);
 
             log.audit('execute', `Completed. Units used: ${startUsage - script.getRemainingUsage()}`);
 
@@ -270,7 +273,7 @@ define(['N/search', 'N/email', 'N/render', 'N/record', 'N/runtime', 'N/file', 'N
     /**
      * Send compiled reports via email
      */
-    const sendReports = (reports, recipientIds) => {
+    const sendReports = (reports, recipientIds, senderId) => {
         if (!recipientIds) {
             log.debug('sendReports', 'No recipients configured');
             return;
@@ -301,13 +304,19 @@ define(['N/search', 'N/email', 'N/render', 'N/record', 'N/runtime', 'N/file', 'N
 
         log.audit('sendReports', `Sending to ${recipients.length} recipients`);
 
-        // Note: In production, would actually send email
-        // email.send({
-        //     author: senderId,
-        //     recipients: recipients,
-        //     subject: `Daily Reports - ${format.format({ value: new Date(), type: format.Type.DATE })}`,
-        //     body: emailBody
-        // });
+        try {
+            email.send({
+                author: senderId,
+                recipients: recipients,
+                subject: `Daily Reports - ${format.format({ value: new Date(), type: format.Type.DATE })}`,
+                body: emailBody
+            });
+        } catch (errSend) {
+            // email.send throws if any recipient ID is invalid or the sender lacks an email
+            // address on their employee record — log and let execute() decide whether to retry.
+            log.error('sendReports - email.send failed', errSend);
+            throw errSend;
+        }
     };
 
     const formatNumber = (num) => {

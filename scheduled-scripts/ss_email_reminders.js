@@ -20,8 +20,8 @@
  * @param {number} custscript_days_before - Days before due date to send reminder
  * @param {number} custscript_sender_employee - Employee ID for email sender
  */
-define(['N/search', 'N/email', 'N/record', 'N/runtime', 'N/format', 'N/render'], 
-    (search, email, record, runtime, format, render) => {
+define(['N/search', 'N/email', 'N/record', 'N/runtime', 'N/format', 'N/log'],
+    (search, email, record, runtime, format, log) => {
 
     const execute = (context) => {
         try {

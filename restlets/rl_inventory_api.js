@@ -18,7 +18,7 @@
  * E-commerce platform calls this API before showing "Add to Cart" button
  * to ensure item is actually in stock
  */
-define(['N/search', 'N/log', 'N/record'], (search, log, record) => {
+define(['N/search', 'N/log'], (search, log) => {
 
     /**
      * GET - Single item inventory lookup

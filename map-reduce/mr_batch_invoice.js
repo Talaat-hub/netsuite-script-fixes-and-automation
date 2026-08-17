@@ -17,9 +17,11 @@
  * - Sends email summary with success/error counts
  *
  * @param {string} custscript_batch_notify_email - Email for completion notification
+ * @param {number} [custscript_batch_notify_sender] - Employee ID to send the summary
+ *        email from. Falls back to the script's executing user if left blank.
  */
-define(['N/record', 'N/search', 'N/email', 'N/runtime', 'N/format'], 
-    (record, search, email, runtime, format) => {
+define(['N/record', 'N/search', 'N/email', 'N/runtime', 'N/format', 'N/log', '../libraries/lib_utils'],
+    (record, search, email, runtime, format, log, libUtils) => {
 
     /**
      * Defines the data source - finds Sales Orders ready to be invoiced
@@ -282,7 +284,7 @@ Batch Invoice Generation Complete
 =================================
 
 Invoices Created: ${summary.invoicesCreated}
-Total Amount: ${formatCurrency(summary.totalAmountInvoiced)}
+Total Amount: ${libUtils.formatCurrency(summary.totalAmountInvoiced)}
 Errors: ${summary.errors}
 Completed: ${summary.dateRange}
             `;
@@ -294,19 +296,20 @@ Completed: ${summary.dateRange}
                 });
             }
 
-            // Note: Would need an actual employee ID here
-            log.audit('Email Body', body);
+            const senderId = script.getParameter('custscript_batch_notify_sender') || runtime.getCurrentUser().id;
+
+            email.send({
+                author: senderId,
+                recipients: recipientEmail,
+                subject: `Batch Invoice Run: ${summary.invoicesCreated} created, ${summary.errors} errors`,
+                body: body
+            });
+
+            log.audit('sendSummaryEmail', `Summary email sent to ${recipientEmail}`);
 
         } catch (e) {
-            log.debug('sendSummaryEmail Error', e.message);
+            log.error('sendSummaryEmail Error', e.message);
         }
-    };
-
-    const formatCurrency = (amount) => {
-        return parseFloat(amount || 0).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
     };
 
     return {

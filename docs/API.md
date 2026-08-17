@@ -2,6 +2,22 @@
 
 ## Utility Library (lib_utils.js)
 
+Import it like any other module, using a relative path from the calling script:
+
+```javascript
+define(['../libraries/lib_utils'], (utils) => {
+    // utils.escapeXml(...), utils.formatCurrency(...), etc.
+});
+```
+
+This library is intended for server-side scripts (Suitelets, User Events, Map/Reduce,
+Scheduled Scripts) since it depends on `N/search`, `N/format`, and `N/runtime`. It is
+actively used by `emp_ue_hrms.js`, `mr_batch_invoice.js`, `emp_sl_print.js`,
+`cust_sl_statement.js`, `so_sl_print.js`, and `po_sl_print.js` in this repo — see those
+files for real call sites. Client Scripts should not import it; see the comment above
+`isValidEmail`/`isValidPhone` in `client-scripts/emp_cs_buttons.js` for why those two
+validators are duplicated there instead of shared.
+
 ### Search Utilities
 
 #### getAllResults(searchObj)
@@ -15,6 +31,11 @@ const results = utils.getAllResults(mySearch);
 - `searchObj` (search.Search) - NetSuite search object
 
 **Returns:** Array of search result objects
+
+**Gotcha:** if the result count is an exact multiple of 1000 (the page size), the loop
+makes one extra, empty `search.run()` call before it detects there's nothing left and
+stops. Harmless (an unnecessary API call, not a correctness bug), but worth knowing if
+you're counting governance units tightly.
 
 ---
 

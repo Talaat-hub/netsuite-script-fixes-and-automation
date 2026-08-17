@@ -19,7 +19,7 @@
  * AUTHENTICATION:
  * Uses NetSuite Token-Based Authentication (TBA)
  */
-define(['N/record', 'N/search', 'N/log', 'N/error'], (record, search, log, error) => {
+define(['N/record', 'N/search', 'N/log'], (record, search, log) => {
 
     /**
      * GET - Retrieve customer data

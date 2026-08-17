@@ -16,8 +16,8 @@
  * - Updates sync tracking records
  * - Handles large data volumes with governance checks
  */
-define(['N/record', 'N/search', 'N/runtime', 'N/format', 'N/https', 'N/log'], 
-    (record, search, runtime, format, https, log) => {
+define(['N/record', 'N/search', 'N/runtime', 'N/format', 'N/log'],
+    (record, search, runtime, format, log) => {
 
     const getInputData = () => {
         const script = runtime.getCurrentScript();
@@ -133,6 +133,25 @@ define(['N/record', 'N/search', 'N/runtime', 'N/format', 'N/https', 'N/log'],
             itemsProcessed: totalItems,
             duration: context.mapSummary.seconds + context.reduceSummary.seconds
         });
+
+        // Advance the incremental-sync watermark so the next run only picks up items
+        // modified since this run. Without this, custscript_last_sync_date never moves
+        // and every run either reprocesses the whole catalog or requires a manual reset.
+        advanceLastSyncDate();
+    };
+
+    const advanceLastSyncDate = () => {
+        try {
+            const script = runtime.getCurrentScript();
+            record.submitFields({
+                type: 'scriptdeployment',
+                id: script.deploymentId,
+                values: { 'custscript_last_sync_date': new Date() }
+            });
+        } catch (e) {
+            // Non-fatal: worst case the next run re-scans a wider date range.
+            log.error('advanceLastSyncDate', e.message);
+        }
     };
 
     // ==================== HELPERS ====================
@@ -174,20 +193,31 @@ define(['N/record', 'N/search', 'N/runtime', 'N/format', 'N/https', 'N/log'],
                 return false;
             });
 
+            const fieldValues = {
+                'custrecord_sync_location': totals.locationId,
+                'custrecord_sync_item_count': totals.itemCount,
+                'custrecord_sync_total_available': totals.totalAvailable,
+                'custrecord_sync_date': new Date()
+            };
+
             if (recordId) {
                 record.submitFields({
                     type: 'customrecord_location_sync',
                     id: recordId,
-                    values: {
-                        'custrecord_sync_item_count': totals.itemCount,
-                        'custrecord_sync_total_available': totals.totalAvailable,
-                        'custrecord_sync_date': new Date()
-                    }
+                    values: fieldValues
                 });
+            } else {
+                // No sync record exists yet for this location — create one instead of
+                // silently doing nothing (this used to only handle the update case).
+                const syncRecord = record.create({ type: 'customrecord_location_sync' });
+                Object.keys(fieldValues).forEach(fieldId => {
+                    syncRecord.setValue({ fieldId, value: fieldValues[fieldId] });
+                });
+                syncRecord.save();
             }
 
         } catch (e) {
-            log.debug('updateLocationSyncRecord', e.message);
+            log.error('updateLocationSyncRecord', e.message);
         }
     };
 

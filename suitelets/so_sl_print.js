@@ -15,7 +15,8 @@
  * - Line item table with pricing and totals
  * - Opens inline for immediate viewing
  */
-define(['N/record', 'N/search', 'N/render', 'N/file', 'N/format'], (record, search, render, file, format) => {
+define(['N/record', 'N/render', 'N/file', 'N/format', 'N/log', '../libraries/lib_utils'],
+    (record, render, file, format, log, libUtils) => {
 
     const onRequest = (context) => {
         try {
@@ -180,11 +181,11 @@ define(['N/record', 'N/search', 'N/render', 'N/file', 'N/format'], (record, sear
         <tr>
             <td class="address-block">
                 <strong>Bill To:</strong><br/>
-                <span>${escapeXml(data.billAddress || data.customerName)}</span>
+                <span>${libUtils.escapeXml(data.billAddress || data.customerName)}</span>
             </td>
             <td class="address-block">
                 <strong>Ship To:</strong><br/>
-                <span>${escapeXml(data.shipAddress || 'Same as billing')}</span>
+                <span>${libUtils.escapeXml(data.shipAddress || 'Same as billing')}</span>
             </td>
         </tr>
     </table>
@@ -222,8 +223,8 @@ define(['N/record', 'N/search', 'N/render', 'N/file', 'N/format'], (record, sear
             template += `
             <tr>
                 <td>${item.line}</td>
-                <td>${escapeXml(item.item)}</td>
-                <td>${escapeXml(item.description)}</td>
+                <td>${libUtils.escapeXml(item.item)}</td>
+                <td>${libUtils.escapeXml(item.description)}</td>
                 <td style="text-align: right;">${item.quantity}</td>
                 <td style="text-align: right;">${item.rate}</td>
                 <td style="text-align: right;">${item.amount}</td>
@@ -267,7 +268,7 @@ define(['N/record', 'N/search', 'N/render', 'N/file', 'N/format'], (record, sear
             template += `
     <div style="margin-top: 20px;">
         <strong>Notes:</strong><br/>
-        <span>${escapeXml(data.memo)}</span>
+        <span>${libUtils.escapeXml(data.memo)}</span>
     </div>
 `;
         }
@@ -291,17 +292,20 @@ define(['N/record', 'N/search', 'N/render', 'N/file', 'N/format'], (record, sear
     };
 
     /**
-     * Render HTML to PDF and write to response
+     * Render HTML to PDF and write to response.
+     *
+     * NOTE: `template` already has every value substituted via JS template literals
+     * before it gets here, so it's passed straight to `render.xmlToPdf()`. Routing it
+     * through `render.create()` + `templateContent` + `renderAsString()` first (a
+     * leftover from an earlier version of this script) would run it through NetSuite's
+     * Freemarker engine a second time — unnecessary, and a real bug if any interpolated
+     * value (a customer memo, address, etc.) happens to contain "${...}" literally, since
+     * Freemarker would try to evaluate it as a template expression.
      */
     const finalPrint = (template, context) => {
         try {
-            const renderer = render.create();
-            renderer.templateContent = template;
-
-            const xml = renderer.renderAsString();
-
             const pdfFile = render.xmlToPdf({
-                xmlString: xml
+                xmlString: template
             });
 
             context.response.writeFile({
@@ -322,19 +326,13 @@ define(['N/record', 'N/search', 'N/render', 'N/file', 'N/format'], (record, sear
         return format.format({ value: date, type: format.Type.DATE });
     };
 
+    // Deliberately NOT libUtils.formatCurrency: the "TOTAL (USD):" label already carries
+    // the currency code, and every column here is plain right-aligned numbers in a
+    // table, so a bare "1,234.56" (no $ sign, no thousands separator needed at this
+    // font size) reads cleaner than a locale-formatted currency string would.
     const formatCurrency = (value) => {
         const num = parseFloat(value) || 0;
         return num.toFixed(2);
-    };
-
-    const escapeXml = (str) => {
-        if (!str) return '';
-        return str.toString()
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&apos;');
     };
 
     return { onRequest };

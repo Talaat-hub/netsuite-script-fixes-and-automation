@@ -135,6 +135,13 @@ define(['N/url', 'N/https', 'N/currentRecord', 'N/ui/dialog'], (url, https, curr
         });
     };
 
+    // NOTE: receivePO() and processApproval() below call Suitelets
+    // (`customscript_po_sl_receive` and `customscript_po_sl_approval`) that are not
+    // included in this repo — only the printing Suitelet (suitelets/po_sl_print.js) is.
+    // Both are wired up as working examples of the confirm-then-GET pattern with
+    // `N/https.get.promise()`; to make them functional you'd add Suitelets that create
+    // the Item Receipt and flip the PO's approval status server-side, respectively.
+    // See docs/DEPLOYMENT.md "Known Limitations".
     const receivePO = (recId) => {
         dialog.confirm({
             title: 'Receive Items',

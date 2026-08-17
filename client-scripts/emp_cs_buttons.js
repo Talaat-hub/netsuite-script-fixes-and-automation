@@ -181,6 +181,13 @@ define(['N/url', 'N/https', 'N/currentRecord', 'N/ui/dialog', 'N/format'],
 
     /**
      * Generate QR Code for employee
+     *
+     * NOTE: this calls a Suitelet (`customscript_emp_sl_qr`) that is not included in
+     * this repo — only the printing Suitelet (`suitelets/emp_sl_print.js`) is. This
+     * button is wired up as a working example of the calling pattern; to make it
+     * functional end-to-end you'd add a Suitelet that generates a QR code (e.g. writing
+     * one to the File Cabinet with a QR-encoding library) and deploy it under that
+     * script ID. See docs/DEPLOYMENT.md "Known Limitations".
      */
     const generateQRCode = (employeeId) => {
         try {
@@ -225,6 +232,12 @@ define(['N/url', 'N/https', 'N/currentRecord', 'N/ui/dialog', 'N/format'],
         }
     };
 
+    // isValidEmail/isValidPhone are intentionally duplicated here rather than imported
+    // from libraries/lib_utils.js: that library also imports N/search, N/format and
+    // N/runtime, none of which are guaranteed to behave the same way (or be worth the
+    // extra weight) inside a Client Script running in the browser. Keeping these two
+    // pure, dependency-free functions local avoids pulling in the whole server-oriented
+    // library just for two regexes.
     const isValidEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };

@@ -16,7 +16,8 @@
  * - Line item table with quantities and amounts
  * - Totals and approval signature area
  */
-define(['N/record', 'N/search', 'N/render', 'N/format'], (record, search, render, format) => {
+define(['N/record', 'N/render', 'N/format', 'N/log', '../libraries/lib_utils'],
+    (record, render, format, log, libUtils) => {
 
     const onRequest = (context) => {
         try {
@@ -81,8 +82,8 @@ define(['N/record', 'N/search', 'N/render', 'N/format'], (record, search, render
             itemRows += `
                 <tr>
                     <td>${item.line}</td>
-                    <td>${escapeXml(item.item)}</td>
-                    <td>${escapeXml(item.description)}</td>
+                    <td>${libUtils.escapeXml(item.item)}</td>
+                    <td>${libUtils.escapeXml(item.description)}</td>
                     <td align="right">${item.quantity}</td>
                     <td align="right">${item.rate}</td>
                     <td align="right">${item.amount}</td>
@@ -109,7 +110,7 @@ define(['N/record', 'N/search', 'N/render', 'N/format'], (record, search, render
         <tr>
             <td style="width: 50%;">
                 <strong>Vendor:</strong><br/>
-                ${escapeXml(data.vendorName)}
+                ${libUtils.escapeXml(data.vendorName)}
             </td>
             <td>
                 <strong>PO #:</strong> ${data.tranId}<br/>
@@ -145,7 +146,7 @@ define(['N/record', 'N/search', 'N/render', 'N/format'], (record, search, render
         </tr>
     </table>
 
-    ${data.memo ? `<div style="margin-top: 20px;"><strong>Notes:</strong><br/>${escapeXml(data.memo)}</div>` : ''}
+    ${data.memo ? `<div style="margin-top: 20px;"><strong>Notes:</strong><br/>${libUtils.escapeXml(data.memo)}</div>` : ''}
 
     <div style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 8pt; color: #666;">
         Generated: ${new Date().toLocaleString()}
@@ -154,17 +155,22 @@ define(['N/record', 'N/search', 'N/render', 'N/format'], (record, search, render
 </pdf>`;
     };
 
+    /**
+     * `template` is already fully substituted via JS template literals, so it's passed
+     * straight to `render.xmlToPdf()`. Routing it through `render.create()` +
+     * `templateContent` + `renderAsString()` first would run it through NetSuite's
+     * Freemarker engine a second time for no benefit — and misfires if any interpolated
+     * field (a vendor name, memo, etc.) happens to contain literal "${...}" text.
+     */
     const renderPdf = (template, context) => {
-        const renderer = render.create();
-        renderer.templateContent = template;
-        const xml = renderer.renderAsString();
-        const pdf = render.xmlToPdf({ xmlString: xml });
+        const pdf = render.xmlToPdf({ xmlString: template });
         context.response.writeFile({ file: pdf, isInline: true });
     };
 
     const formatDate = (d) => d ? format.format({ value: d, type: format.Type.DATE }) : '';
+    // Deliberately not libUtils.formatCurrency — see so_sl_print.js for the same
+    // reasoning: the currency code is already shown separately in "TOTAL (USD):".
     const formatNum = (n) => (parseFloat(n) || 0).toFixed(2);
-    const escapeXml = (s) => (s || '').toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
     return { onRequest };
 });

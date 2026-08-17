@@ -14,8 +14,13 @@
  * - Adds Print, Exchange Rate, and Approve buttons on record view
  * - Validates line items and calculates margins before save
  * - Creates related records after successful save
+ *
+ * @param {number} [custscript_base_currency] - Internal ID of the subsidiary's base
+ *        currency; used to decide whether to show the "Update Exchange Rate" button.
+ * @param {number} [custscript_min_order_amount] - Minimum allowed order total. Defaults
+ *        to 100 if not configured.
  */
-define(['N/record', 'N/search', 'N/url', 'N/runtime'], (record, search, url, runtime) => {
+define(['N/record', 'N/search', 'N/url', 'N/runtime', 'N/log'], (record, search, url, runtime, log) => {
 
     /**
      * beforeLoad - Add custom buttons and modify form
@@ -81,7 +86,9 @@ define(['N/record', 'N/search', 'N/url', 'N/runtime'], (record, search, url, run
 
             // Validate minimum order amount
             const total = parseFloat(newRecord.getValue('total')) || 0;
-            const minOrderAmount = 100;
+            const minOrderAmount = parseFloat(
+                runtime.getCurrentScript().getParameter({ name: 'custscript_min_order_amount' })
+            ) || 100;
 
             if (total < minOrderAmount && total > 0) {
                 throw new Error(`Minimum order amount is $${minOrderAmount}. Current total: $${total.toFixed(2)}`);

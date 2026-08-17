@@ -16,8 +16,8 @@
  * - Calculates running balance for each transaction
  * - Generates PDF with debit/credit columns and totals
  */
-define(['N/ui/serverWidget', 'N/record', 'N/search', 'N/render', 'N/format', 'N/url'], 
-    (serverWidget, record, search, render, format, url) => {
+define(['N/ui/serverWidget', 'N/record', 'N/search', 'N/render', 'N/format', 'N/log', '../libraries/lib_utils'],
+    (serverWidget, record, search, render, format, log, libUtils) => {
 
     const onRequest = (context) => {
         try {
@@ -234,9 +234,9 @@ define(['N/ui/serverWidget', 'N/record', 'N/search', 'N/render', 'N/format', 'N/
             transactionRows += `
                 <tr>
                     <td>${txn.date}</td>
-                    <td>${escapeXml(txn.type)}</td>
-                    <td>${escapeXml(txn.number)}</td>
-                    <td>${escapeXml(txn.memo)}</td>
+                    <td>${libUtils.escapeXml(txn.type)}</td>
+                    <td>${libUtils.escapeXml(txn.number)}</td>
+                    <td>${libUtils.escapeXml(txn.memo)}</td>
                     <td align="right">${txn.amount >= 0 ? formatCurrency(txn.amount) : ''}</td>
                     <td align="right">${txn.amount < 0 ? formatCurrency(Math.abs(txn.amount)) : ''}</td>
                     <td align="right">${formatCurrency(txn.balance)}</td>
@@ -279,11 +279,11 @@ define(['N/ui/serverWidget', 'N/record', 'N/search', 'N/render', 'N/format', 'N/
         </div>
 
         <div class="customer-info">
-            <div class="customer-name">${escapeXml(customer.name)}</div>
+            <div class="customer-name">${libUtils.escapeXml(customer.name)}</div>
             <table>
                 <tr>
-                    <td><strong>Email:</strong> ${escapeXml(customer.email)}</td>
-                    <td><strong>Phone:</strong> ${escapeXml(customer.phone)}</td>
+                    <td><strong>Email:</strong> ${libUtils.escapeXml(customer.email)}</td>
+                    <td><strong>Phone:</strong> ${libUtils.escapeXml(customer.phone)}</td>
                 </tr>
                 <tr>
                     <td><strong>Credit Limit:</strong> ${formatCurrency(customer.creditLimit)} ${customer.currency}</td>
@@ -328,18 +328,13 @@ define(['N/ui/serverWidget', 'N/record', 'N/search', 'N/render', 'N/format', 'N/
 </pdf>`;
     };
 
-    const escapeXml = (str) => {
-        if (!str) return '';
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&apos;');
-    };
+    const escapeHtml = (str) => libUtils.escapeXml(str);
 
-    const escapeHtml = (str) => escapeXml(str);
-
+    // Deliberately NOT libUtils.formatCurrency: this statement always prints the
+    // customer's currency code as a separate label next to the amount (see
+    // buildStatementXml), so this local helper returns a plain "1,234.56" without a
+    // currency symbol baked in — using libUtils' formatCurrency here would produce a
+    // redundant "$1,234.56 EUR".
     const formatCurrency = (amount) => {
         return parseFloat(amount || 0).toLocaleString('en-US', {
             minimumFractionDigits: 2,

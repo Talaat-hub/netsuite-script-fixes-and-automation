@@ -16,7 +16,7 @@
  * - Checks vendor status before approval
  * - Sends email notifications on status change
  */
-define(['N/record', 'N/search', 'N/email', 'N/runtime', 'N/url'], (record, search, email, runtime, url) => {
+define(['N/record', 'N/search', 'N/email', 'N/runtime', 'N/url', 'N/log'], (record, search, email, runtime, url, log) => {
 
     const beforeLoad = (context) => {
         try {

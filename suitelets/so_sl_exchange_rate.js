@@ -15,8 +15,8 @@
  * - Fetches rate from external API
  * - Updates Sales Order with new rate on confirm
  */
-define(['N/ui/serverWidget', 'N/record', 'N/https', 'N/redirect', 'N/search', 'N/format'], 
-    (serverWidget, record, https, redirect, search, format) => {
+define(['N/ui/serverWidget', 'N/record', 'N/https', 'N/redirect', 'N/search', 'N/format', 'N/log'],
+    (serverWidget, record, https, redirect, search, format, log) => {
 
     const onRequest = (context) => {
         try {
@@ -191,46 +191,47 @@ define(['N/ui/serverWidget', 'N/record', 'N/https', 'N/redirect', 'N/search', 'N
     };
 
     /**
-     * Fetch exchange rate from external API
+     * Fetch exchange rate from external API, with a fallback to a small cached table
+     * if the API call fails (network outage, rate limit, unsupported currency, etc.).
+     * NOTE: exchangerate-api.com's free tier only returns *current* rates, not
+     * historical ones for `rateDate` — for genuine historical rates you'd need a paid
+     * tier or a different provider; this endpoint is used purely as a working example.
      */
     const fetchExchangeRate = (currencyCode, rateDate) => {
-        try {
-            // Example using exchangerate-api.com (replace with your API)
-            // In production, use script parameters for API URL and key
-            
-            const baseCurrency = 'USD';
-            const targetCurrency = currencyCode.replace(/[^A-Z]/g, '').substring(0, 3);
+        const baseCurrency = 'USD';
+        const targetCurrency = currencyCode.replace(/[^A-Z]/g, '').substring(0, 3);
 
-            // Example API call (replace with actual API)
-            /*
+        try {
             const response = https.get({
                 url: `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`
             });
 
             if (response.code === 200) {
                 const data = JSON.parse(response.body);
-                return data.rates[targetCurrency] || 1;
+                if (data.rates && data.rates[targetCurrency]) {
+                    log.debug('fetchExchangeRate', `Live rate for ${targetCurrency}: ${data.rates[targetCurrency]}`);
+                    return data.rates[targetCurrency];
+                }
+                log.debug('fetchExchangeRate', `${targetCurrency} not in API response, falling back to cache`);
+            } else {
+                log.debug('fetchExchangeRate', `API returned status ${response.code}, falling back to cache`);
             }
-            */
-
-            // Using cached rates - replace with live API in production
-            log.debug('fetchExchangeRate', `Fetching rate for ${targetCurrency} on ${rateDate}`);
-            
-            // Cached exchange rates
-            const cachedRates = {
-                'EUR': 0.92,
-                'GBP': 0.79,
-                'AED': 3.67,
-                'SAR': 3.75,
-                'EGP': 30.90
-            };
-
-            return cachedRates[targetCurrency] || 1;
-
         } catch (errFetch) {
-            log.error('errFetch', errFetch);
-            return null;
+            log.error('fetchExchangeRate API call failed', errFetch);
         }
+
+        // Fallback cached rates — used if the live API is unreachable or doesn't cover
+        // the requested currency. Keep this list small; it's a safety net, not a source
+        // of truth.
+        const cachedRates = {
+            'EUR': 0.92,
+            'GBP': 0.79,
+            'AED': 3.67,
+            'SAR': 3.75,
+            'EGP': 30.90
+        };
+
+        return cachedRates[targetCurrency] || 1;
     };
 
     return { onRequest };

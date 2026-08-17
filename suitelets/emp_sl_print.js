@@ -15,8 +15,8 @@
  * - Profile: Full page with personal info, employment details, compensation
  * - Both output as professional PDF documents
  */
-define(['N/record', 'N/render', 'N/search', 'N/file', 'N/format', 'N/encode'], 
-    (record, render, search, file, format, encode) => {
+define(['N/record', 'N/render', 'N/format', 'N/log', '../libraries/lib_utils'],
+    (record, render, format, log, libUtils) => {
 
     const onRequest = (context) => {
         try {
@@ -88,18 +88,18 @@ define(['N/record', 'N/render', 'N/search', 'N/file', 'N/format', 'N/encode'],
             </div>
             
             <div class="info">
-                <div class="emp-name">${escapeXml(employeeData.fullName)}</div>
-                <div class="emp-title">${escapeXml(employeeData.title)}</div>
+                <div class="emp-name">${libUtils.escapeXml(employeeData.fullName)}</div>
+                <div class="emp-title">${libUtils.escapeXml(employeeData.title)}</div>
                 <br/>
                 <table>
-                    <tr><td><strong>ID:</strong></td><td class="emp-code">${escapeXml(employeeData.employeeCode)}</td></tr>
-                    <tr><td><strong>Dept:</strong></td><td>${escapeXml(employeeData.department)}</td></tr>
+                    <tr><td><strong>ID:</strong></td><td class="emp-code">${libUtils.escapeXml(employeeData.employeeCode)}</td></tr>
+                    <tr><td><strong>Dept:</strong></td><td>${libUtils.escapeXml(employeeData.department)}</td></tr>
                     <tr><td><strong>Hired:</strong></td><td>${employeeData.hireDate}</td></tr>
                 </table>
             </div>
             
             <div class="footer">
-                Subsidiary: ${escapeXml(employeeData.subsidiary)} | Valid Until: ${employeeData.validUntil}
+                Subsidiary: ${libUtils.escapeXml(employeeData.subsidiary)} | Valid Until: ${employeeData.validUntil}
             </div>
         </div>
     </body>
@@ -140,26 +140,26 @@ define(['N/record', 'N/render', 'N/search', 'N/file', 'N/format', 'N/encode'],
             <div class="doc-title">Employee Profile</div>
         </div>
 
-        <div class="emp-name">${escapeXml(employeeData.fullName)}</div>
-        <div class="emp-title">${escapeXml(employeeData.title)}</div>
+        <div class="emp-name">${libUtils.escapeXml(employeeData.fullName)}</div>
+        <div class="emp-title">${libUtils.escapeXml(employeeData.title)}</div>
         <br/><br/>
 
         <div class="section">
             <div class="section-title">Personal Information</div>
             <table class="info">
-                <tr><td>Employee Code:</td><td>${escapeXml(employeeData.employeeCode)}</td></tr>
-                <tr><td>Email:</td><td>${escapeXml(employeeData.email)}</td></tr>
-                <tr><td>Phone:</td><td>${escapeXml(employeeData.phone)}</td></tr>
-                <tr><td>Mobile:</td><td>${escapeXml(employeeData.mobile)}</td></tr>
+                <tr><td>Employee Code:</td><td>${libUtils.escapeXml(employeeData.employeeCode)}</td></tr>
+                <tr><td>Email:</td><td>${libUtils.escapeXml(employeeData.email)}</td></tr>
+                <tr><td>Phone:</td><td>${libUtils.escapeXml(employeeData.phone)}</td></tr>
+                <tr><td>Mobile:</td><td>${libUtils.escapeXml(employeeData.mobile)}</td></tr>
             </table>
         </div>
 
         <div class="section">
             <div class="section-title">Employment Details</div>
             <table class="info">
-                <tr><td>Department:</td><td>${escapeXml(employeeData.department)}</td></tr>
-                <tr><td>Subsidiary:</td><td>${escapeXml(employeeData.subsidiary)}</td></tr>
-                <tr><td>Supervisor:</td><td>${escapeXml(employeeData.supervisor)}</td></tr>
+                <tr><td>Department:</td><td>${libUtils.escapeXml(employeeData.department)}</td></tr>
+                <tr><td>Subsidiary:</td><td>${libUtils.escapeXml(employeeData.subsidiary)}</td></tr>
+                <tr><td>Supervisor:</td><td>${libUtils.escapeXml(employeeData.supervisor)}</td></tr>
                 <tr><td>Hire Date:</td><td>${employeeData.hireDate}</td></tr>
                 <tr><td>Years of Service:</td><td>${employeeData.yearsOfService}</td></tr>
                 <tr><td>Status:</td><td>${employeeData.isActive ? 'Active' : 'Inactive'}</td></tr>
@@ -169,7 +169,7 @@ define(['N/record', 'N/render', 'N/search', 'N/file', 'N/format', 'N/encode'],
         <div class="section">
             <div class="section-title">Compensation</div>
             <table class="info">
-                <tr><td>Pay Frequency:</td><td>${escapeXml(employeeData.payFrequency)}</td></tr>
+                <tr><td>Pay Frequency:</td><td>${libUtils.escapeXml(employeeData.payFrequency)}</td></tr>
             </table>
         </div>
 
@@ -210,16 +210,6 @@ define(['N/record', 'N/render', 'N/search', 'N/file', 'N/format', 'N/encode'],
             payFrequency: empRec.getText('payfrequency') || 'N/A',
             photoUrl: empRec.getValue('image') || null
         };
-    };
-
-    const escapeXml = (str) => {
-        if (!str) return '';
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&apos;');
     };
 
     return { onRequest };
