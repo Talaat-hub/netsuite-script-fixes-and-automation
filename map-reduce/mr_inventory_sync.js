@@ -143,9 +143,31 @@ define(['N/record', 'N/search', 'N/runtime', 'N/format', 'N/log'],
     const advanceLastSyncDate = () => {
         try {
             const script = runtime.getCurrentScript();
+
+            // record.submitFields on the SCRIPT_DEPLOYMENT record type requires the
+            // deployment's numeric internal ID — script.deploymentId is the deployment's
+            // *script ID* (e.g. "customdeploy_xyz"), which submitFields does NOT accept.
+            // Look up the internal ID first.
+            const deploymentSearch = search.create({
+                type: 'scriptdeployment',
+                filters: [['scriptid', 'is', script.deploymentId]],
+                columns: ['internalid']
+            });
+
+            let deploymentInternalId = null;
+            deploymentSearch.run().each(result => {
+                deploymentInternalId = result.id;
+                return false;
+            });
+
+            if (!deploymentInternalId) {
+                log.error('advanceLastSyncDate', `Could not resolve internal ID for deployment ${script.deploymentId}`);
+                return;
+            }
+
             record.submitFields({
                 type: 'scriptdeployment',
-                id: script.deploymentId,
+                id: deploymentInternalId,
                 values: { 'custscript_last_sync_date': new Date() }
             });
         } catch (e) {

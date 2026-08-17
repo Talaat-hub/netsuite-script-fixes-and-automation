@@ -4,18 +4,22 @@ Real NetSuite SuiteScript solutions focused on fixing issues, automating workflo
 
 ---
 
-## 🔧 What I Do
+## About
 
-I help businesses:
-
-- **Fix broken or partially working SuiteScript** — Debug and repair scripts that aren't working correctly
-- **Automate manual processes** — Turn repetitive tasks into automated workflows
-- **Debug and improve existing scripts** — Find and fix logic issues, improve performance
-- **Build integrations** — Connect NetSuite to external systems via REST APIs
+This repository is a collection of production-style SuiteScript 2.1 customizations built around common NetSuite pain points: manual pricing and exchange-rate lookups on Sales Orders, unenforced Purchase Order approval chains, one-by-one invoice creation, ad hoc employee ID cards, unfollowed overdue invoices, statement generation limited to month-end, and manual order entry from e-commerce platforms. Each example pairs a User Event, Client Script, Suitelet, Map/Reduce, or Scheduled Script with a short write-up of the problem it solves, and a shared utility library (`libraries/lib_utils.js`) is used across the Suitelets and Map/Reduce script to avoid duplicating formatting and validation logic. A RESTlet API layer with a full Postman collection is included for scripts that need to expose NetSuite data to external systems.
 
 ---
 
-## 📁 Example Work
+## What This Covers
+
+- Fixing broken or partially working SuiteScript
+- Automating manual, repetitive processes
+- Debugging and improving existing scripts
+- Building integrations between NetSuite and external systems via REST APIs
+
+---
+
+## Example Work
 
 ### 1. Sales Order Automation
 
@@ -23,12 +27,12 @@ I help businesses:
 
 **Solution:** Built User Event + Client Script + Suitelet combination that:
 - Auto-calculates margins when line items are entered
-- Fetches live exchange rates from external API with one click
+- Fetches live exchange rates from an external API with one click, falling back to a cached rate table if the API is unavailable
 - Custom PDF printouts matching company branding
 
 **Result:** Eliminated pricing errors, current exchange rates always available, professional documents.
 
-**Files:** `user-event-scripts/so_ue_validation_buttons.js`, `client-scripts/so_cs_buttons.js`, `suitelets/so_sl_*.js`
+**Files:** `user-event-scripts/so_ue_validation_buttons.js`, `client-scripts/so_cs_buttons.js`, `client-scripts/so_cs_exchange_rate.js`, `suitelets/so_sl_*.js`
 
 ---
 
@@ -55,7 +59,7 @@ I help businesses:
 **Solution:** Built Map/Reduce script that:
 - Finds all pending Sales Orders marked for invoicing
 - Transforms each to Invoice automatically
-- Sends email summary with success/error counts
+- Emails a summary with success/error counts when the run completes
 
 **Result:** Hours of work done in minutes, nothing missed, clear reporting.
 
@@ -68,7 +72,7 @@ I help businesses:
 **Problem:** No standard employee ID cards, manual employee code assignment causing duplicates, no document tracking.
 
 **Solution:** Built HRMS automation with:
-- Auto-generated unique employee codes
+- Auto-generated, configurable-prefix employee codes
 - One-click ID card PDF printing
 - Document serial number tracking
 
@@ -113,71 +117,71 @@ I help businesses:
 **Problem:** Orders from Shopify/WooCommerce entered manually. Inventory levels out of sync causing oversells. Customer data not flowing between systems.
 
 **Solution:** Built RESTlet API layer for external integrations:
-- Customer API: Create, read, update, deactivate customers
-- Inventory API: Real-time stock levels, bulk availability checks
-- Order API: Automated order creation from e-commerce webhooks
+- Customer API: create, read, update, deactivate customers
+- Inventory API: real-time stock levels, bulk availability checks
+- Order API: automated order creation from e-commerce webhooks
 
 **Result:** Zero manual order entry, real-time inventory sync, single customer record across all systems.
 
 **Files:** `restlets/rl_customer_api.js`, `restlets/rl_inventory_api.js`, `restlets/rl_order_api.js`
 
-**Testing:** Complete Postman collection included — `postman/` folder
+**Testing:** Postman collection included in the `postman/` folder.
 
 ---
 
-## 🧰 Tools & Technologies
+## Tools & Technologies
 
-- **NetSuite SuiteScript 2.1** — Modern ES6+ syntax
-- **JavaScript** — Clean, maintainable code
-- **RESTlet APIs** — External system integration with Token-Based Auth
-- **Postman** — API testing and documentation
-- **PDF Generation** — N/render for professional documents
-
----
-
-## 🎯 What This Shows
-
-- **Fast debugging** — Can understand and fix existing code quickly
-- **Business focus** — Solutions tied to real problems, not just code
-- **Clean code** — Well-documented, maintainable, follows best practices
-- **Full stack** — User Events, Client Scripts, Suitelets, Map/Reduce, Scheduled, RESTlets
-- **API Integration** — External system connectivity with proper authentication
+- NetSuite SuiteScript 2.1 (modern ES6+ syntax)
+- JavaScript
+- RESTlet APIs with Token-Based Authentication
+- Postman for API testing and documentation
+- N/render for PDF generation
 
 ---
 
-## 📌 Availability
+## What This Demonstrates
 
-Available for:
+- Ability to read, debug, and extend existing code quickly
+- Solutions tied to specific business problems, not just code for its own sake
+- Clean, documented, maintainable script structure
+- Coverage across the full SuiteScript surface: User Events, Client Scripts, Suitelets, Map/Reduce, Scheduled Scripts, and RESTlets
+- External system integration with proper authentication
+
+---
+
+## Availability
+
+Open to:
 - Quick fixes and bug repairs
-- Small automation tasks
+- Small automation projects
 - API integrations (Shopify, WooCommerce, custom systems)
-- Part-time ongoing NetSuite support
+- Part-time, ongoing NetSuite support
 - Urgent issues with fast turnaround
 
 ---
 
-## 📂 Documentation
+## Documentation
 
-- [Deployment Guide](docs/DEPLOYMENT.md) — How to install and configure scripts
-- [API Reference](docs/API.md) — Utility library documentation
+- [Deployment Guide](docs/DEPLOYMENT.md) — how to install and configure scripts, including known limitations
+- [API Reference](docs/API.md) — shared utility library documentation
 - [Postman Collection](postman/README.md) — RESTlet API testing guide
 
 ---
 
-## ✅ Testing
+## Testing
 
-There's no automated test suite in this repo — validating changes here means deploying
+There is no automated test suite in this repository — validating changes means deploying
 to a Sandbox account and exercising the scripts directly. The closest thing to a test
 harness is the [Postman collection](postman/) for the three RESTlets: import it,
 configure the environment variables listed in `postman/README.md`, and run the requests
 against a Sandbox account to confirm the Customer/Inventory/Order APIs behave as
-documented. (For a repo with an actual Jest unit-test setup for SuiteScript, see
-[SuiteScript-Usability-and-Documentations](https://github.com/Talaat-hub/SuiteScript-Usability-and-Documentations).)
+documented. For a repository with an actual Jest unit-test setup for SuiteScript, see
+[SuiteScript-Usability-and-Documentations](https://github.com/Talaat-hub/SuiteScript-Usability-and-Documentations).
 
 ---
 
 ## Author
 
-[Mahmoud Talaat](https://www.linkedin.com/in/mahmoudtalaat21/) – NetSuite / SuiteScript Developer
+[Mahmoud Talaat](https://www.linkedin.com/in/mahmoudtalaat21/) — NetSuite / SuiteScript Developer
 
 Feel free to connect or reach out with questions about any of the patterns used here.
